@@ -1,0 +1,66 @@
+.container {
+   width: 100vw;
+   height: 100vh;
+
+   display: grid;
+   grid-template-columns: repeat(24, 1fr);
+   grid-template-rows: repeat(24, 1fr);
+
+   .header {
+      grid-column: 1 / span 24;
+      grid-row: 1 / span 3;
+
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      grid-template-rows: repeat(1, 1fr);
+      place-items: center;
+      place-content: center;
+
+      .brand {
+         grid-column: 1 / span 4;
+         grid-row: 1 / span 1;
+
+         .logo {
+            img {
+            }
+         }
+      }
+
+      background-color: palegreen;
+   }
+
+   .sidebar {
+      grid-column: 1 / span 3;
+      grid-row: 4 / span 21;
+
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+
+      background-color: palevioletred;
+   }
+
+   .main {
+      grid-column: 4 / span 21;
+      grid-row: 4 / span 21;
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(1, 1fr);
+
+      background-color: palegoldenrod;
+
+      .editor {
+         grid-column: 1 / 2;
+
+         background-color: aqua;
+      }
+
+      .preview {
+         grid-column: 2 / 3;
+
+         div{
+          padding: 1rem;
+         }
+      }
+   }
+}
