@@ -75,7 +75,9 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
    async (context: GetServerSidePropsContext) => {
       const session = context.req.session || {};
 
-      if (!session.user) {
+      const user = session.user || null;
+
+      if (!user) {
          return {
             redirect: {
                destination: '/login',
@@ -84,7 +86,6 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
          };
       }
 
-      const user = session.user;
       const data: Data = {
          folders: null,
          files: [

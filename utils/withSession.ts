@@ -7,6 +7,16 @@ import {
 
 import { ironConfig } from './ironConfig';
 
+declare module 'iron-session' {
+   interface IronSessionData {
+      user?: {
+         id: string;
+         name: string;
+         email: string;
+      };
+   }
+}
+
 export function withSessionRoute(handler: NextApiHandler) {
    return withIronSessionApiRoute(handler, ironConfig);
 }
