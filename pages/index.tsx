@@ -1,16 +1,29 @@
-import type { NextPage } from 'next';
+import type {
+   GetServerSidePropsContext,
+   GetServerSideProps,
+   NextPage,
+} from 'next';
+import type { File, Folder } from '../utils/files.types';
+import { withSessionSsr } from '../utils/withSession';
 import React from 'react';
 import Head from 'next/head';
 import parseHtml from 'html-react-parser';
 import styles from '../styles/Home.module.scss';
 import { editor } from '../utils/code-mirror';
 import { parseMarkdown } from '../utils/markdown-it';
+import Link from 'next/link';
 
-const Home: NextPage = () => {
+type Data = {
+   files: File[] | null;
+   folders: Folder[] | null;
+   name: string;
+};
+
+const Home: NextPage<Data> = ({ files, folders, name }) => {
    const inputRef = React.useRef<HTMLDivElement>(null);
    const outputRef = React.useRef<HTMLDivElement>(null);
 
-   const [code, setCode] = React.useState('');
+   const [code, setCode] = React.useState(files ? files[0].content : '');
 
    React.useEffect(() => {
       if (inputRef.current && outputRef.current) {
@@ -31,6 +44,17 @@ const Home: NextPage = () => {
          </Head>
          <header className={styles.header}>
             <h1 className={styles.brand}>Note Taker</h1>
+
+            <div className={styles.user}>
+               <span  className={styles.title}>{name}</span>
+               <ul className={styles.dropdown}>
+                  <li className={styles.logout}>
+                     <Link href='/api/logout'>
+                        <a>Logout</a>
+                     </Link>
+                  </li>
+               </ul>
+            </div>
          </header>
          <aside className={styles.sidebar}>
             <h2>{"Jacob's Notes"}</h2>
@@ -46,5 +70,43 @@ const Home: NextPage = () => {
       </div>
    );
 };
+
+export const getServerSideProps: GetServerSideProps = withSessionSsr(
+   async (context: GetServerSidePropsContext) => {
+      const session = context.req.session || {};
+
+      if (!session.user) {
+         return {
+            redirect: {
+               destination: '/login',
+               permanent: false,
+            },
+         };
+      }
+
+      const user = session.user;
+      const data: Data = {
+         folders: null,
+         files: [
+            {
+               name: 'README.md',
+               id: 'README.md',
+               createdAt: '2020-01-01T00:00:00.000Z',
+               updatedAt: '2020-01-01T00:00:00.000Z',
+               content: '# Hello World\n\nThis is a simple markdown file.',
+            },
+         ],
+         name: user.name,
+      };
+
+      return {
+         props: {
+            files: data.files || null,
+            folders: data.folders || null,
+            name: data.name,
+         },
+      };
+   }
+);
 
 export default Home;

@@ -16,18 +16,70 @@
       place-items: center;
       place-content: center;
 
+      color: var(--on-bg);
+      background-color: var(--clr-bg);
+
       .brand {
          grid-column: 1 / span 4;
          grid-row: 1 / span 1;
+      }
 
-         .logo {
-            img {
+      .user {
+         grid-column: 20 / span 4;
+         grid-row: 1 / span 1;
+
+         position: relative;
+
+         .title {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: var(--clr-bg-elevated);
+            color: var(--on-bg-elevated);
+         }
+
+         &:hover {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+
+            .dropdown {
+               display: block;
+            }
+         }
+
+         .dropdown {
+            display: none;
+            position: absolute;
+            list-style: none;
+
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            padding-top: 0.5rem;
+
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+
+            background-color: var(--clr-bg-elevated);
+            color: var(--on-bg-elevated);
+
+            * {
+               padding: 0.5rem;
+               width: 100%;
+
+               &:last-child {
+                  border-bottom-left-radius: 0.5rem;
+                  border-bottom-right-radius: 0.5rem;
+               }
+            }
+
+            .logout {
+               &:hover {
+                  background-color: var(--clr-primary);
+                  color: var(--on-primary);
+               }
             }
          }
       }
-
-      color: var(--on-bg);
-      background-color: var(--clr-bg);
    }
 
    .sidebar {
