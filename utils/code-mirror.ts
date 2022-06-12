@@ -11,6 +11,27 @@ const extensions = [
    markdown(),
 ];
 
+const theme = EditorView.theme({
+   '&': {
+      color: 'var(--on-bg)',
+      backgroundColor: 'var(--clr-bg)',
+   },
+   '.cm-content': {
+      caretColor: 'var(--on-bg)',
+   },
+   '&.cm-focused .cm-cursor': {
+      borderLeftColor: 'var(--on-bg)',
+   },
+   '&.cm-focused .cm-selectionBackground, ::selection': {
+      backgroundColor: 'var(--clr-primary)',
+      color: 'var(--on-primary)',
+   },
+   '.cm-gutters': {
+      backgroundColor: 'var(--clr-bg-elevated)',
+      color: 'var(--on-bg)',
+   },
+});
+
 export function editor(
    ref: React.RefObject<HTMLDivElement>,
    value: string,
@@ -22,7 +43,7 @@ export function editor(
 
    const state = EditorState.create({
       doc: value,
-      extensions: [...extensions, onUpdate],
+      extensions: [theme, ...extensions, onUpdate],
    });
    const cm = new EditorView({
       state,

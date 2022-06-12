@@ -14,3 +14,39 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --clr-bg: hsl(0, 0%, 100%);
+  --on-bg: hsl(0, 0%, 0%);
+
+  --clr-bg-elevated: hsl(0, 0%, 95%);
+  --on-bg-elevated: hsl(0, 0%, 2%);
+
+  --clr-bg-elevated-2: hsl(0, 0%, 90%);
+  --on-bg-elevated-2: hsl(0, 0%, 2%);
+
+  --clr-primary: hsl(210, 100%, 50%);
+  --on-primary: hsl(210, 0%, 100%);
+
+  --clr-success: hsl(120, 100%, 50%);
+  --on-success: hsl(120, 0%, 100%);
+
+  --clr-warning: hsl(30, 100%, 50%);
+  --on-warning: hsl(30, 0%, 100%);
+
+  --clr-danger: hsl(0, 100%, 50%);
+  --on-danger: hsl(0, 0%, 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --clr-bg: hsl(0, 0%, 0%);
+    --on-bg: hsl(0, 0%, 100%);
+
+    --clr-bg-elevated: hsl(0, 0%, 15%);
+    --on-bg-elevated: hsl(0, 0%, 95%);
+
+    --clr-bg-elevated-2: hsl(0, 0%, 30%);
+    --on-bg-elevated-2: hsl(0, 0%, 90%);
+  }
+}

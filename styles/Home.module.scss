@@ -26,7 +26,8 @@
          }
       }
 
-      background-color: palegreen;
+      color: var(--on-bg);
+      background-color: var(--clr-bg);
    }
 
    .sidebar {
@@ -36,7 +37,8 @@
       display: grid;
       grid-template-columns: repeat(1, 1fr);
 
-      background-color: palevioletred;
+      color: var(--on-bg);
+      background-color: var(--clr-bg);
    }
 
    .main {
@@ -47,19 +49,26 @@
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(1, 1fr);
 
-      background-color: palegoldenrod;
+      color: var(--on-bg);
+      background-color: var(--clr-bg);
 
       .editor {
          grid-column: 1 / 2;
 
-         background-color: aqua;
+         height: 100%;
+
+         color: var(--on-bg);
+         background-color: var(--clr-bg);
       }
 
       .preview {
          grid-column: 2 / 3;
 
-         div{
-          padding: 1rem;
+         color: var(--on-bg);
+         background-color: var(--clr-bg);
+
+         div {
+            padding: 1rem;
          }
       }
    }
