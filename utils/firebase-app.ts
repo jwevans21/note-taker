@@ -1,9 +1,6 @@
-import { initializeApp, cert, applicationDefault } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-
-import serviceAccount from './serviceAccountKey.json';
 
 export const config = {
    credential: cert({
@@ -15,6 +12,5 @@ export const config = {
 
 export const app = initializeApp(config);
 
-export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
