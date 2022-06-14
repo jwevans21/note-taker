@@ -35,6 +35,30 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
       }
    }, []);
 
+   function populateFiles(files: File[]) {
+      if (files.length === 0) return null;
+      return files.map((file) => {
+         return (
+            <div key={file.id} className={styles.file}>
+               <div className={styles.fileName}>{file.name}</div>
+            </div>
+         );
+      });
+   }
+
+   function populateFolders(folders: Folder[]) {
+      if (folders.length === 0) return null;
+      return folders.map((folder) => {
+         return (
+            <div key={folder.id} className={styles.folder}>
+               <div className={styles.folderName}>{folder.name}</div>
+               {populateFolders(folder.folders || [])}
+               {populateFiles(folder.files || [])}
+            </div>
+         );
+      });
+   }
+
    return (
       <div className={styles.container}>
          <Head>
@@ -45,10 +69,17 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
          <header className={styles.header}>
             <h1 className={styles.brand}>Note Taker</h1>
 
-            <div className={styles.user}>
-               <span className={styles.title}>{name}</span>
-               <ul className={styles.dropdown}>
-                  <li className={styles.logout}>
+            <div className={styles.dropdown}>
+               <div className={styles.content}>
+                  <span className={styles.name}>{name}</span>
+               </div>
+               <ul className={styles.list}>
+                  <li className={styles.item}>
+                     <Link href='/settings'>
+                        <a>Settings</a>
+                     </Link>
+                  </li>
+                  <li className={styles.item}>
                      <Link href='/api/logout'>
                         <a>Logout</a>
                      </Link>
@@ -57,7 +88,8 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
             </div>
          </header>
          <aside className={styles.sidebar}>
-            <h2>{"Jacob's Notes"}</h2>
+            {folders && populateFolders(folders)}
+            {files && populateFiles(files)}
          </aside>
          <main className={styles.main}>
             <section className={styles.editor}>
@@ -87,7 +119,41 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
       }
 
       const data: Data = {
-         folders: null,
+         folders: [
+            {
+               id: '1',
+               name: 'Folder 1',
+               files: [
+                  {
+                     id: '1',
+                     name: 'File 1',
+                     content: '',
+                     createdAt: new Date().toISOString(),
+                     updatedAt: new Date().toISOString(),
+                  },
+               ],
+               folders: [
+                  {
+                     id: '1',
+                     name: 'Folder 2',
+                     files: [
+                        {
+                           id: '1',
+                           name: 'File 2',
+                           content: '',
+                           createdAt: new Date().toISOString(),
+                           updatedAt: new Date().toISOString(),
+                        },
+                     ],
+                     folders: null,
+                     createdAt: new Date().toISOString(),
+                     updatedAt: new Date().toISOString(),
+                  },
+               ],
+               createdAt: new Date().toISOString(),
+               updatedAt: new Date().toISOString(),
+            },
+         ],
          files: [
             {
                name: 'README.md',

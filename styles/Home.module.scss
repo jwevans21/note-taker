@@ -3,79 +3,80 @@
    height: 100vh;
 
    display: grid;
-   grid-template-columns: repeat(24, 1fr);
-   grid-template-rows: repeat(24, 1fr);
+   grid-template-columns: min-content 1fr;
+   grid-template-rows: min-content 1fr;
 
    .header {
-      grid-column: 1 / span 24;
-      grid-row: 1 / span 3;
+      grid-column: 1 / span 2;
 
-      display: grid;
-      grid-template-columns: repeat(24, 1fr);
-      grid-template-rows: repeat(1, 1fr);
-      place-items: center;
-      place-content: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 1rem;
 
       color: var(--on-bg);
       background-color: var(--clr-bg);
 
       .brand {
-         grid-column: 1 / span 4;
-         grid-row: 1 / span 1;
+         padding: 0;
+         margin: 0;
       }
 
-      .user {
-         grid-column: 20 / span 4;
-         grid-row: 1 / span 1;
-
+      .dropdown {
          position: relative;
 
-         .title {
+         .content {
             padding: 0.5rem;
             border-radius: 0.5rem;
             background-color: var(--clr-bg-elevated);
             color: var(--on-bg-elevated);
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            cursor: pointer;
          }
 
          &:hover {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-
-            .dropdown {
+            .list {
                display: block;
             }
          }
 
-         .dropdown {
+         .list {
             display: none;
             position: absolute;
             list-style: none;
 
             width: 100%;
             margin: 0;
+            margin-top: 0.1rem;
             padding: 0;
-            padding-top: 0.5rem;
 
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
+            border-radius: 0.5rem;
 
             background-color: var(--clr-bg-elevated);
             color: var(--on-bg-elevated);
 
-            * {
+            .item {
                padding: 0.5rem;
                width: 100%;
 
-               &:last-child {
-                  border-bottom-left-radius: 0.5rem;
-                  border-bottom-right-radius: 0.5rem;
-               }
-            }
-
-            .logout {
                &:hover {
                   background-color: var(--clr-primary);
                   color: var(--on-primary);
+               }
+
+               &:first-child{
+                  border-top-left-radius: 0.5rem;
+                  border-top-right-radius: 0.5rem;
+               }
+
+               &:last-child{
+                  border-bottom-left-radius: 0.5rem;
+                  border-bottom-right-radius: 0.5rem;
                }
             }
          }
@@ -83,20 +84,22 @@
    }
 
    .sidebar {
-      grid-column: 1 / span 3;
-      grid-row: 4 / span 21;
-
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
 
       color: var(--on-bg);
       background-color: var(--clr-bg);
+
+      * {
+         padding-inline: 0.25rem;
+         padding-block: 0.1rem;
+         border-left: 1px solid var(--clr-bg-elevated);
+      }
    }
 
    .main {
-      grid-column: 4 / span 21;
-      grid-row: 4 / span 21;
-
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(1, 1fr);
@@ -105,8 +108,6 @@
       background-color: var(--clr-bg);
 
       .editor {
-         grid-column: 1 / 2;
-
          height: 100%;
 
          color: var(--on-bg);
@@ -114,8 +115,6 @@
       }
 
       .preview {
-         grid-column: 2 / 3;
-
          color: var(--on-bg);
          background-color: var(--clr-bg);
 
