@@ -1,0 +1,18 @@
+.strength{
+   display: block;
+   width: 100%;
+   margin-block: 1rem;
+
+   & &__bar{
+      height: 0.5rem;
+      border-radius: 0.125rem;
+      background-color: var(--clr-danger);
+   }
+
+   & &__text{
+      font-size: 1rem;
+      font-weight: 500;
+      margin-block: 0.5rem;
+      text-align: center;
+   }
+}

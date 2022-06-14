@@ -46,7 +46,7 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
             <h1 className={styles.brand}>Note Taker</h1>
 
             <div className={styles.user}>
-               <span  className={styles.title}>{name}</span>
+               <span className={styles.title}>{name}</span>
                <ul className={styles.dropdown}>
                   <li className={styles.logout}>
                      <Link href='/api/logout'>
@@ -73,7 +73,7 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
 
 export const getServerSideProps: GetServerSideProps = withSessionSsr(
    async (context: GetServerSidePropsContext) => {
-      const session = context.req.session || {};
+      const session = context.req.session || null;
 
       const user = session.user || null;
 
@@ -97,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
                content: '# Hello World\n\nThis is a simple markdown file.',
             },
          ],
-         name: user.name,
+         name: user ? (user.name ? user.name : '') : '',
       };
 
       return {

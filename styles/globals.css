@@ -13,6 +13,7 @@ a {
 
 * {
   box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
 }
 
 :root {
@@ -26,15 +27,19 @@ a {
   --on-bg-elevated-2: hsl(0, 0%, 2%);
 
   --clr-primary: hsl(210, 100%, 50%);
+  --clr-primary-dark: hsl(210, 100%, 25%);
   --on-primary: hsl(210, 0%, 100%);
 
   --clr-success: hsl(120, 100%, 50%);
+  --clr-success-dark: hsl(120, 100%, 25%);
   --on-success: hsl(120, 0%, 100%);
 
   --clr-warning: hsl(30, 100%, 50%);
+  --clr-warning-dark: hsl(30, 100%, 25%);
   --on-warning: hsl(30, 0%, 100%);
 
   --clr-danger: hsl(0, 100%, 50%);
+  --clr-danger-dark: hsl(0, 100%, 25%);
   --on-danger: hsl(0, 0%, 100%);
 }
 
