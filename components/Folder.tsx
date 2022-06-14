@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { Folder as FolderType } from '../utils/files.types';
 
-import FileType from './File';
+import File from './File';
 
 import styles from '../styles/Folder.module.scss';
 
@@ -35,21 +35,7 @@ function FolderOpenedIcon() {
 }
 
 function ChevronIcon({ open }: { open: boolean }) {
-   return (
-      <svg
-         xmlns='http://www.w3.org/2000/svg'
-         width='24'
-         height='24'
-         fill='currentColor'
-         className={`bi bi-chevron-right ${open ? styles.open : ''}`.trim()}
-         viewBox='0 0 16 16'>
-         <path
-            fillRule='evenodd'
-            d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'
-         />
-      </svg>
-   );
-   /* return open ? (
+   return open ? (
       <svg
          xmlns='http://www.w3.org/2000/svg'
          width='16'
@@ -75,8 +61,8 @@ function ChevronIcon({ open }: { open: boolean }) {
             d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'
          />
       </svg>
-   ); */
-}
+   );
+   }
 
 type Props={
    folder: FolderType;
@@ -106,7 +92,7 @@ const Folder = ({ folder: {name, id, folders, files} }: Props) => {
                folders.map((folder) => <Folder key={folder.id} folder={folder} />)}
             {files &&
                files.length > 0 &&
-               files.map((file) => <FileType key={file.id} {...file} />)}
+               files.map((file) => <File key={file.id} {...file} />)}
          </div>
       </div>
    );

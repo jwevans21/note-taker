@@ -8,6 +8,8 @@ import Folder from './Folder';
 import File from './File';
 
 import styles from '../styles/FileExplorer.module.scss';
+import { useFilesContext } from '../utils/files-context';
+import { nanoid } from 'nanoid';
 
 function PlusCircle() {
    return (
@@ -29,17 +31,50 @@ type Props = {
    folders: FolderType[] | null;
 };
 
-const FileExplorer = ({ files, folders }: Props) => {
+const FileExplorer = () => {
+   const { state, dispatch } = useFilesContext();
+
+   const { files, folders } = state;
+
+   function addFile(){
+      dispatch({
+         type: 'ADD_FILE',
+         payload: {
+            id: nanoid(),
+            name: 'New File',
+            content: '',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+         },
+      });
+   }
+
+   function addFolder(){
+      dispatch({
+         type: 'ADD_FOLDER',
+         payload: {
+            id: nanoid(),
+            name: 'New Folder',
+            folders:[],
+            files:[],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+         },
+      });
+   }
+
    return (
       <aside className={styles.fileExplorer}>
          <div className={styles.header}>
-            <button className={styles.button}>
+            <button
+               className={styles.button}
+               onClick={addFile}>
                <span className={styles.icon}>
                   <PlusCircle />
                </span>
                <span className={styles.text}>New File</span>
             </button>
-            <button className={styles.button}>
+            <button className={styles.button} onClick={addFolder}>
                <span className={styles.icon}>
                   <PlusCircle />
                </span>

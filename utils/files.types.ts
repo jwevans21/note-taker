@@ -11,6 +11,6 @@ export type Folder = {
    id: string;
    createdAt: string;
    updatedAt: string;
-   files: File[] | null;
-   folders: Folder[] | null;
+   files: File[] | [];
+   folders: Folder[] | [];
 };
