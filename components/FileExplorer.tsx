@@ -9,30 +9,6 @@ import File from './File';
 
 import styles from '../styles/FileExplorer.module.scss';
 
-function populateFiles(files: FileType[]) {
-   if (files.length === 0) return null;
-   return files.map((file) => {
-      return (
-         <div key={file.id} className={styles.file}>
-            <div className={styles.fileName}>{file.name}</div>
-         </div>
-      );
-   });
-}
-
-function populateFolders(folders: FolderType[]) {
-   if (folders.length === 0) return null;
-   return folders.map((folder) => {
-      return (
-         <div key={folder.id} className={styles.folder}>
-            <div className={styles.folderName}>{folder.name}</div>
-            {populateFolders(folder.folders || [])}
-            {populateFiles(folder.files || [])}
-         </div>
-      );
-   });
-}
-
 function PlusCircle() {
    return (
       <svg
@@ -74,7 +50,7 @@ const FileExplorer = ({ files, folders }: Props) => {
             {folders &&
                folders.length > 0 &&
                folders.map((folder) => (
-                  <Folder key={folder.id} {...folder} />
+                  <Folder key={folder.id} folder={folder} />
                ))}
             {files &&
                files.length > 0 &&

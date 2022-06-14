@@ -1,9 +1,41 @@
 .folder {
    padding: 0;
+   width: 100%;
 
-   .name {
+   .heading {
       font-size: 1.25rem;
       font-weight: bold;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      cursor: pointer;
+
+      *{
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: center;
+      }
+
+      .leftIcon {
+         margin-right: 0.5rem;
+      }
+
+      .name {
+         margin-left: 0.5rem;
+      }
+
+      .rightIcon {
+         margin-left: auto;
+         margin-right: 0;
+         transition: 0.2s ease-in-out;
+
+         .open {
+            transform: rotate(90deg);
+         }
+      }
    }
 
    .items {
@@ -13,6 +45,10 @@
       align-items: flex-start;
 
       padding-left: 1rem;
+
+      overflow: hidden;
+
+      transition: height 0.2s ease-in-out;
 
       .item {
          display: flex;
