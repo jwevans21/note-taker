@@ -13,7 +13,6 @@ a {
 
 * {
   box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
 }
 
 :root {
@@ -29,6 +28,10 @@ a {
   --clr-primary: hsl(210, 100%, 50%);
   --clr-primary-dark: hsl(210, 100%, 25%);
   --on-primary: hsl(210, 0%, 100%);
+
+  --clr-accent: hsl(285, 100%, 50%);
+  --clr-accent-dark: hsl(285, 100%, 40%);
+  --on-accent: hsl(285, 0%, 100%);
 
   --clr-success: hsl(120, 100%, 50%);
   --clr-success-dark: hsl(120, 100%, 25%);

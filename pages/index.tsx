@@ -12,6 +12,8 @@ import styles from '../styles/Home.module.scss';
 import { editor } from '../utils/code-mirror';
 import { parseMarkdown } from '../utils/markdown-it';
 import Link from 'next/link';
+import UserMenu from '../components/UserMenu';
+import FileExplorer from '../components/FileExplorer';
 
 type Data = {
    files: File[] | null;
@@ -35,30 +37,6 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
       }
    }, []);
 
-   function populateFiles(files: File[]) {
-      if (files.length === 0) return null;
-      return files.map((file) => {
-         return (
-            <div key={file.id} className={styles.file}>
-               <div className={styles.fileName}>{file.name}</div>
-            </div>
-         );
-      });
-   }
-
-   function populateFolders(folders: Folder[]) {
-      if (folders.length === 0) return null;
-      return folders.map((folder) => {
-         return (
-            <div key={folder.id} className={styles.folder}>
-               <div className={styles.folderName}>{folder.name}</div>
-               {populateFolders(folder.folders || [])}
-               {populateFiles(folder.files || [])}
-            </div>
-         );
-      });
-   }
-
    return (
       <div className={styles.container}>
          <Head>
@@ -69,28 +47,9 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
          <header className={styles.header}>
             <h1 className={styles.brand}>Note Taker</h1>
 
-            <div className={styles.dropdown}>
-               <div className={styles.content}>
-                  <span className={styles.name}>{name}</span>
-               </div>
-               <ul className={styles.list}>
-                  <li className={styles.item}>
-                     <Link href='/settings'>
-                        <a>Settings</a>
-                     </Link>
-                  </li>
-                  <li className={styles.item}>
-                     <Link href='/api/logout'>
-                        <a>Logout</a>
-                     </Link>
-                  </li>
-               </ul>
-            </div>
+            <UserMenu name={name} />
          </header>
-         <aside className={styles.sidebar}>
-            {folders && populateFolders(folders)}
-            {files && populateFiles(files)}
-         </aside>
+         <FileExplorer folders={folders} files={files} />
          <main className={styles.main}>
             <section className={styles.editor}>
                <div ref={inputRef}></div>

@@ -1,0 +1,82 @@
+.fileExplorer {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   width: 100%;
+   min-width: 250px;
+
+   color: var(--on-bg);
+   background-color: var(--clr-bg);
+
+   overflow: auto;
+
+   .header {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+
+      padding: 1rem;
+
+      color: var(--on-bg);
+      background-color: var(--clr-bg);
+
+      .button {
+         width: 100%;
+         padding: 0.5rem;
+         margin: 0;
+
+         display: flex;
+         flex-direction: row;
+         justify-content: flex-start;
+         
+         color: var(--on-accent);
+         background-color: var(--clr-accent);
+         border-color: var(--clr-accent);
+
+         &:hover {
+            color: var(--on-accent);
+            background-color: var(--clr-accent-dark);
+            border-color: var(--clr-accent-dark);
+         }
+      
+         border-style: solid;
+         border-radius: 0.5rem;
+
+         cursor: pointer;
+
+         .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-left: 1rem;
+            margin-right: 1.5rem;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+
+         .text {
+            font-size: 1.2rem;
+            font-weight: bold;
+
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+         }
+      }
+   }
+
+   .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      padding: 1rem;
+
+      background-color: var(--clr-bg);
+      color: var(--on-bg);
+   }
+}
