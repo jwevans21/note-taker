@@ -1,0 +1,24 @@
+.header {
+   grid-column: 1/ span 2;
+
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem;
+   color: var(--on-bg);
+   background-color: var(--clr-bg-elevated);
+
+   .name {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+   }
+
+   .actions{
+
+   }
+}

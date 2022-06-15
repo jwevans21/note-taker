@@ -48,26 +48,14 @@
 
    .main {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(1, 1fr);
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: min-content 1fr;
 
       color: var(--on-bg);
       background-color: var(--clr-bg);
 
-      .editor {
-         height: 100%;
-
-         color: var(--on-bg);
-         background-color: var(--clr-bg);
-      }
-
-      .preview {
-         color: var(--on-bg);
-         background-color: var(--clr-bg);
-
-         div {
-            padding: 1rem;
-         }
+      .header {
+         grid-column: 1 / span 2;
       }
    }
 }

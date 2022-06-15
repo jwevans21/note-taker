@@ -1,21 +1,17 @@
 import React from 'react';
 
-import type { File, Folder } from './files.types';
-
-type FilesContextType = {
-   files: File[] | [];
-   folders: Folder[] | [];
-};
-
-type Action =
-   | {
-        type: 'ADD_FILE';
-        payload: File;
-     }
-   | {
-        type: 'ADD_FOLDER';
-        payload: Folder;
-     };
+import type {
+   FilesContextType,
+   Action,
+   ReducedFilesContextType,
+} from './reducer.types';
+import {
+   createFile,
+   createFolder,
+   updateFile,
+   currentFile,
+   downloadFile,
+} from './reducers';
 
 function filesReducer(
    state: FilesContextType,
@@ -23,34 +19,32 @@ function filesReducer(
 ): FilesContextType {
    switch (action.type) {
       case 'ADD_FILE':
-         return {
-            folders: state.folders,
-            files: [...(state.files), action.payload],
-         };
+         return createFile(state, action.payload);
       case 'ADD_FOLDER':
-         return {
-            files: state.files,
-            folders: [...(state.folders), action.payload],
-         };
+         return createFolder(state, action.payload);
+      case 'UPDATE_FILE':
+         return updateFile(state, action.payload);
+      case 'SET_CURRENT_FILE':
+         return currentFile(state, action.payload);
+      case 'DOWNLOAD_FILE':
+         return downloadFile(state);
       default:
+         console.error(new Error(`Unhandled action type: ${action.type}`));
          return state;
    }
 }
 
-type ReducedFilesContextType = {
-   state: FilesContextType;
-   dispatch: React.Dispatch<Action>;
-};
-
 const FilesContext = React.createContext<ReducedFilesContextType>({
    state: {
-      files:[],
-      folders:[],
+      currentFile: null,
+      files: [],
+      folders: [],
    },
    dispatch: () => {},
 });
 
-const useFilesContext = () => React.useContext<ReducedFilesContextType>(FilesContext);
+const useFilesContext = () =>
+   React.useContext<ReducedFilesContextType>(FilesContext);
 
 type FilesProviderProps = {
    children: React.ReactNode;
@@ -61,7 +55,7 @@ const FilesProvider = ({ children, initialState }: FilesProviderProps) => {
    const [state, dispatch] = React.useReducer<
       (state: FilesContextType, action: Action) => FilesContextType
    >(filesReducer, initialState);
-   const value = { state, dispatch };
+   const value = { state: state, dispatch: dispatch };
 
    return (
       <FilesContext.Provider value={value}>{children}</FilesContext.Provider>

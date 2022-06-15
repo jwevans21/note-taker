@@ -49,6 +49,8 @@
 
       transition: display 5s ease-in-out;
 
+      z-index: 1;
+
       .item {
          padding: 1rem;
          width: 100%;

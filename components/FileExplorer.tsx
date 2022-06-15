@@ -9,7 +9,6 @@ import File from './File';
 
 import styles from '../styles/FileExplorer.module.scss';
 import { useFilesContext } from '../utils/files-context';
-import { nanoid } from 'nanoid';
 
 function PlusCircle() {
    return (
@@ -26,39 +25,26 @@ function PlusCircle() {
    );
 }
 
-type Props = {
-   files: FileType[] | null;
-   folders: FolderType[] | null;
-};
-
 const FileExplorer = () => {
    const { state, dispatch } = useFilesContext();
 
    const { files, folders } = state;
 
-   function addFile(){
+   function addFile() {
       dispatch({
          type: 'ADD_FILE',
          payload: {
-            id: nanoid(),
             name: 'New File',
             content: '',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
          },
       });
    }
 
-   function addFolder(){
+   function addFolder() {
       dispatch({
          type: 'ADD_FOLDER',
          payload: {
-            id: nanoid(),
             name: 'New Folder',
-            folders:[],
-            files:[],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
          },
       });
    }
@@ -66,9 +52,7 @@ const FileExplorer = () => {
    return (
       <aside className={styles.fileExplorer}>
          <div className={styles.header}>
-            <button
-               className={styles.button}
-               onClick={addFile}>
+            <button className={styles.button} onClick={addFile}>
                <span className={styles.icon}>
                   <PlusCircle />
                </span>
@@ -85,11 +69,17 @@ const FileExplorer = () => {
             {folders &&
                folders.length > 0 &&
                folders.map((folder) => (
-                  <Folder key={folder.id} folder={folder} />
+                  <Folder
+                     key={folder.id}
+                     folder={folder}
+                     path={`root/${folder.id}`}
+                  />
                ))}
             {files &&
                files.length > 0 &&
-               files.map((file) => <File key={file.id} {...file} />)}
+               files.map((file) => (
+                  <File key={file.id} file={file} path={`root/${file.id}`} />
+               ))}
          </div>
       </aside>
    );

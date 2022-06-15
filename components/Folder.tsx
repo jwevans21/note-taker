@@ -62,13 +62,14 @@ function ChevronIcon({ open }: { open: boolean }) {
          />
       </svg>
    );
-   }
-
-type Props={
-   folder: FolderType;
 }
 
-const Folder = ({ folder: {name, id, folders, files} }: Props) => {
+type Props = {
+   folder: FolderType;
+   path: string;
+};
+
+const Folder = ({ folder: { name, id, folders, files }, path }: Props) => {
    const [isOpen, setIsOpen] = React.useState(false);
 
    return (
@@ -89,10 +90,18 @@ const Folder = ({ folder: {name, id, folders, files} }: Props) => {
             }}>
             {folders &&
                folders.length > 0 &&
-               folders.map((folder) => <Folder key={folder.id} folder={folder} />)}
+               folders.map((folder) => (
+                  <Folder
+                     key={folder.id}
+                     folder={folder}
+                     path={`${path}/${folder.id}`}
+                  />
+               ))}
             {files &&
                files.length > 0 &&
-               files.map((file) => <File key={file.id} {...file} />)}
+               files.map((file) => (
+                  <File key={file.id} file={file} path={`${path}/${file.id}`} />
+               ))}
          </div>
       </div>
    );

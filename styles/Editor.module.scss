@@ -1,0 +1,19 @@
+.editor {
+   height: 100%;
+
+   color: var(--on-bg);
+   background-color: var(--clr-bg);
+
+   border-right: 1px solid var(--clr-bg-elevated);
+}
+
+.preview {
+   color: var(--on-bg);
+   background-color: var(--clr-bg);
+
+   border-left: 1px solid var(--clr-bg-elevated);
+
+   div {
+      padding: 1rem;
+   }
+}

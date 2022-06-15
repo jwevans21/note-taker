@@ -5,16 +5,17 @@ import type {
 } from 'next';
 import type { File, Folder } from '../utils/files.types';
 import { withSessionSsr } from '../utils/withSession';
+
 import React from 'react';
 import Head from 'next/head';
-import parseHtml from 'html-react-parser';
-import styles from '../styles/Home.module.scss';
-import { editor } from '../utils/code-mirror';
-import { parseMarkdown } from '../utils/markdown-it';
-import Link from 'next/link';
+
+import { FilesProvider } from '../utils/files-context';
+
 import UserMenu from '../components/UserMenu';
 import FileExplorer from '../components/FileExplorer';
-import { FilesProvider } from '../utils/files-context';
+import EditorArea from '../components/EditorArea';
+
+import styles from '../styles/Home.module.scss';
 
 type Data = {
    files: File[] | [];
@@ -23,23 +24,13 @@ type Data = {
 };
 
 const Home: NextPage<Data> = ({ files, folders, name }) => {
-   const inputRef = React.useRef<HTMLDivElement>(null);
-   const outputRef = React.useRef<HTMLDivElement>(null);
-
-   const [code, setCode] = React.useState(files ? files[0].content : '');
-
-   React.useEffect(() => {
-      if (inputRef.current && outputRef.current) {
-         const cm = editor(inputRef, code, setCode);
-
-         return () => {
-            cm.destroy();
-         };
-      }
-   }, []);
-
    return (
-      <FilesProvider initialState={{ files, folders }}>
+      <FilesProvider
+         initialState={{
+            currentFile: null,
+            files,
+            folders,
+         }}>
          <div className={styles.container}>
             <Head>
                <title>Note Taker</title>
@@ -56,12 +47,7 @@ const Home: NextPage<Data> = ({ files, folders, name }) => {
             </header>
             <FileExplorer />
             <main className={styles.main}>
-               <section className={styles.editor}>
-                  <div ref={inputRef}></div>
-               </section>
-               <section className={styles.preview}>
-                  <div ref={outputRef}>{parseHtml(parseMarkdown(code))}</div>
-               </section>
+               <EditorArea />
             </main>
          </div>
       </FilesProvider>
@@ -86,26 +72,26 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
       const data: Data = {
          folders: [
             {
-               id: '1',
+               id: 'xiQzBcSVgS_m3V6aG38t5',
                name: 'Folder 1',
                files: [
                   {
-                     id: '1',
+                     id: '2ohdh-9d3ajRXcNyqaOgv',
                      name: 'File 1',
-                     content: '',
+                     content: '# This is a markdown file with some content',
                      createdAt: new Date().toISOString(),
                      updatedAt: new Date().toISOString(),
                   },
                ],
                folders: [
                   {
-                     id: '1',
+                     id: 'DoJdOg1KfXMzHN32FPaWQ',
                      name: 'Folder 2',
                      files: [
                         {
-                           id: '1',
+                           id: 'bpjBkDi4HvfA6cGBZG4HL',
                            name: 'File 2',
-                           content: '',
+                           content: '# This is a markdown file',
                            createdAt: new Date().toISOString(),
                            updatedAt: new Date().toISOString(),
                         },
@@ -122,10 +108,10 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
          files: [
             {
                name: 'README.md',
-               id: 'README.md',
+               id: 'VP30xTMFNyqrhZUPUKw_K',
                createdAt: '2020-01-01T00:00:00.000Z',
                updatedAt: '2020-01-01T00:00:00.000Z',
-               content: '# Hello World\n\nThis is a simple markdown file.',
+               content: '# README.md',
             },
          ],
          name: user ? (user.name ? user.name : '') : '',

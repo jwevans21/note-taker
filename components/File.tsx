@@ -2,6 +2,8 @@ import React from 'react';
 
 import type { File as FileType } from '../utils/files.types';
 
+import { useFilesContext } from '../utils/files-context';
+
 import styles from '../styles/File.module.scss';
 
 function FileIcon() {
@@ -21,9 +23,27 @@ function FileIcon() {
    );
 }
 
-const File = ({ name, id }: FileType) => {
+type Props = {
+   file: FileType;
+   path: string;
+};
+
+const File = ({ file: { name, id }, path }: Props) => {
+   const { dispatch } = useFilesContext();
+
+   function setAsCurrentFile() {
+      dispatch({
+         type: 'SET_CURRENT_FILE',
+         payload: {
+            id,
+            path,
+            name,
+         },
+      });
+   }
+
    return (
-      <div className={styles.file}>
+      <div className={styles.file} onClick={() => setAsCurrentFile()}>
          <span className={styles.icon}>
             <FileIcon />
          </span>
