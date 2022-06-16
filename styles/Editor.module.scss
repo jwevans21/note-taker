@@ -1,6 +1,8 @@
 .editor {
    height: 100%;
 
+   overflow-y: scroll;
+
    color: var(--on-bg);
    background-color: var(--clr-bg);
 
@@ -8,6 +10,10 @@
 }
 
 .preview {
+   height: 100%;
+
+   overflow-y: scroll;
+
    color: var(--on-bg);
    background-color: var(--clr-bg);
 

@@ -2,6 +2,8 @@
    width: 100vw;
    height: 100vh;
 
+   overflow: hidden;
+
    display: grid;
    grid-template-columns: min-content 1fr;
    grid-template-rows: min-content 1fr;
@@ -47,6 +49,10 @@
    }
 
    .main {
+      height: 100%;
+
+      overflow: hidden;
+
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: min-content 1fr;
