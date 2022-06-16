@@ -18,12 +18,14 @@ export type Action =
         payload: {
            name: string;
            content: string;
+           path: string;
         };
      }
    | {
         type: 'ADD_FOLDER';
         payload: {
            name: string;
+           path: string;
         };
      }
    | {

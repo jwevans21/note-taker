@@ -9,6 +9,7 @@ import File from './File';
 
 import styles from '../styles/FileExplorer.module.scss';
 import { useFilesContext } from '../utils/files-context';
+import FileCreationDialog from './FileCreationDialog';
 
 function PlusCircle() {
    return (
@@ -30,14 +31,10 @@ const FileExplorer = () => {
 
    const { files, folders } = state;
 
+   const [createFileDialogOpen, setCreateFileDialogOpen] = React.useState(false);
+
    function addFile() {
-      dispatch({
-         type: 'ADD_FILE',
-         payload: {
-            name: 'New File',
-            content: '',
-         },
-      });
+      setCreateFileDialogOpen(true);
    }
 
    function addFolder() {
@@ -45,6 +42,7 @@ const FileExplorer = () => {
          type: 'ADD_FOLDER',
          payload: {
             name: 'New Folder',
+            path: 'root',
          },
       });
    }
@@ -81,6 +79,7 @@ const FileExplorer = () => {
                   <File key={file.id} file={file} path={`root/${file.id}`} />
                ))}
          </div>
+         <FileCreationDialog shown={createFileDialogOpen} close={()=>setCreateFileDialogOpen(false)} />
       </aside>
    );
 };

@@ -89,7 +89,7 @@ const SignUp: NextPage = () => {
             <div className={styles.group}>
                <input
                   id='displayName'
-                  type='test'
+                  type='text'
                   placeholder='User Name'
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
