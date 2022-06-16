@@ -25,6 +25,7 @@ function modifyFolder(
                return file;
             }
          }),
+         updatedAt: new Date().toISOString(),
       };
    } else {
       return {
@@ -36,6 +37,7 @@ function modifyFolder(
                return f;
             }
          }),
+         updatedAt: new Date().toISOString(),
       };
    }
 }

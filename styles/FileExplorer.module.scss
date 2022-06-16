@@ -8,7 +8,7 @@
    color: var(--on-bg);
    background-color: var(--clr-bg);
 
-   overflow: auto;
+   overflow-x: visible;
 
    .header {
       display: flex;
@@ -77,6 +77,8 @@
       padding: 1rem;
 
       width: 100%;
+
+      overflow-x: visible;
 
       background-color: var(--clr-bg);
       color: var(--on-bg);

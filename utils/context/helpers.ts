@@ -41,3 +41,31 @@ export function getFile(path: string, state: FilesContextType): File | null {
       return getFileFromFolder(folder, pathArray, index + 1);
    }
 }
+
+function idExistsInFiles(files: File[], id: string): boolean {
+   return files.some((file) => file.id === id);
+}
+
+function idExistsInFolders(folders: Folder[], id: string): boolean {
+   return folders.some((folder) => folder.id === id);
+}
+
+type Data = {
+   files: File[];
+   folders: Folder[];
+};
+
+export function idExistsInState(data: Data, id: string): boolean {
+   let exists = false;
+   if (idExistsInFiles(data.files, id)) return true;
+   if (idExistsInFolders(data.folders, id)) return true;
+   data.folders.forEach((folder) => {
+      if (
+         idExistsInState({ folders: folder.folders, files: folder.files }, id)
+      ) {
+         exists = true;
+         return true;
+      }
+   });
+   return false;
+}

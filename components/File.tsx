@@ -23,6 +23,18 @@ function FileIcon() {
    );
 }
 
+const MoreIcon = () => (
+   <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='16'
+      height='16'
+      fill='currentColor'
+      className='bi bi-three-dots'
+      viewBox='0 0 16 16'>
+      <path d='M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z' />
+   </svg>
+);
+
 type Props = {
    file: FileType;
    path: string;
@@ -48,6 +60,15 @@ const File = ({ file: { name, id }, path }: Props) => {
             <FileIcon />
          </span>
          <span className={styles.name}>{name}</span>
+         {/* For Actions TODO */}
+         {/* <button className={styles.icon}>
+            <MoreIcon />
+            <div className={styles.actions}>
+               <button className={styles.action}>Rename</button>
+               <button className={styles.action}>Move</button>
+               <button className={styles.action}>Delete</button>
+            </div>
+         </button> */}
       </div>
    );
 };

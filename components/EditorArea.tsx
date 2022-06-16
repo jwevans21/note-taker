@@ -82,7 +82,7 @@ const EditorArea = () => {
       </>
    ) : (
       <div className={styles.noFile}>
-         <h3>No file selected</h3>
+         <h2>No file selected</h2>
       </div>
    );
 };

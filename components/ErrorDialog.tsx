@@ -1,6 +1,8 @@
 import React from 'react';
 
-import styles from '../styles/Dialog.module.scss';
+import Modal from './Modal';
+
+import styles from '../styles/ErrorDialog.module.scss';
 
 type Props = {
    error: string;
@@ -10,19 +12,18 @@ type Props = {
 
 const ErrorDialog = ({ error, shown, close }: Props) => {
    return (
-      <div className={styles.dialog__backdrop} data-shown={shown}>
-         <div className={styles.dialog}>
-            <div className={styles.content}>
-               <h2>Error</h2>
-               <p>{error}</p>
-            </div>
-            <div className={styles.actions}>
-               <button className={styles.action} onClick={close}>
-                  Close
-               </button>
-            </div>
+      <Modal
+         shown={shown}
+         close={close}
+         heading={'Error'}
+         style={'danger'}>
+         <p>{error}</p>
+         <div className={styles.actions}>
+            <button className={styles.action} type='button' onClick={close}>
+               Close
+            </button>
          </div>
-      </div>
+      </Modal>
    );
 };
 

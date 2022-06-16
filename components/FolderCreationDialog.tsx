@@ -12,23 +12,22 @@ type Props = {
    close: () => void;
 };
 
-const FileCreationDialog = ({ shown, close }: Props) => {
+const FolderCreationDialog = ({ shown, close }: Props) => {
    const { state, dispatch } = useFilesContext();
 
-   const [fileName, setFileName] = React.useState('');
+   const [folderName, setFolderName] = React.useState('');
    const [path, setPath] = React.useState('');
 
    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       dispatch({
-         type: 'ADD_FILE',
+         type: 'ADD_FOLDER',
          payload: {
-            name: fileName,
+            name: folderName,
             path: path,
-            content: '',
          },
       });
-      setFileName('');
+      setFolderName('');
       setPath('');
       close();
    };
@@ -37,20 +36,22 @@ const FileCreationDialog = ({ shown, close }: Props) => {
       <Modal
          shown={shown}
          close={close}
-         heading={'Create New File'}
+         heading={'Create New Folder'}
          style={'accent'}>
-         <form className={styles.form} onSubmit={handleSubmit}>
+         <form
+            className={styles.form}
+            onSubmit={handleSubmit}>
             <div className={styles.group}>
                <input
-                  id='fileName'
+                  id='folderName'
                   type='text'
-                  placeholder='File Name'
-                  value={fileName}
-                  onChange={(e) => setFileName(e.target.value)}
+                  placeholder='Folder Name'
+                  value={folderName}
+                  onChange={(e) => setFolderName(e.target.value)}
                   className={styles.input}
                />
-               <label htmlFor='fileName' className={styles.label}>
-                  File Name
+               <label htmlFor='folderName' className={styles.label}>
+                  Folder Name
                </label>
             </div>
             <div>
@@ -66,4 +67,4 @@ const FileCreationDialog = ({ shown, close }: Props) => {
    );
 };
 
-export default FileCreationDialog;
+export default FolderCreationDialog;
