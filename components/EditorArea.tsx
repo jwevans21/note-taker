@@ -1,7 +1,7 @@
 import type { File } from '../utils/files.types';
 
 import React from 'react';
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 
 import EditorHeader from './EditorHeader';
 
@@ -10,10 +10,8 @@ import parseHtml from 'html-react-parser';
 import { editor } from '../utils/code-mirror';
 import { parseMarkdown } from '../utils/markdown-it';
 
-import { getCurrentFile } from '../utils/getCurrentFile';
-
 import styles from '../styles/Editor.module.scss';
-import { getFile } from '../utils/getFile';
+import { getFile } from '../utils/context/helpers';
 
 const EditorArea = () => {
    const { state, dispatch } = useFilesContext();

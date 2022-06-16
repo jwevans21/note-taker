@@ -1,5 +1,5 @@
-import type { File, Folder } from './files.types';
-import type { FilesContextType } from './context/reducer.types';
+import type { File, Folder } from '../files.types';
+import type { FilesContextType } from './reducer.types';
 
 const emptyFolder: Folder = {
    id: '',

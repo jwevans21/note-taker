@@ -9,7 +9,7 @@ import { withSessionSsr } from '../utils/withSession';
 import React from 'react';
 import Head from 'next/head';
 
-import { FilesProvider } from '../utils/files-context';
+import FilesProvider  from '../utils/context/files-provider';
 
 import UserMenu from '../components/UserMenu';
 import FileExplorer from '../components/FileExplorer';

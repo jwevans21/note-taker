@@ -8,7 +8,7 @@ import Folder from './Folder';
 import File from './File';
 
 import styles from '../styles/FileExplorer.module.scss';
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 import FileCreationDialog from './FileCreationDialog';
 
 function PlusCircle() {

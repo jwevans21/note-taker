@@ -7,7 +7,7 @@ import parseHtml from 'html-react-parser';
 import { editor } from '../utils/code-mirror';
 import { parseMarkdown } from '../utils/markdown-it';
 
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/Editor.module.scss';
 import { getCurrentFile } from '../utils/getCurrentFile';

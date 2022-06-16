@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/EditorHeader.module.scss';
 
 const Save = () => (
    <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='16'
-      height='16'
+      width='24'
+      height='24'
       fill='currentColor'
       className='bi bi-save'
       viewBox='0 0 16 16'>
@@ -19,8 +19,8 @@ const Save = () => (
 const Download = () => (
    <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='16'
-      height='16'
+      width='24'
+      height='24'
       fill='currentColor'
       className='bi bi-download'
       viewBox='0 0 16 16'>
@@ -38,14 +38,18 @@ const EditorHeader = () => {
    return (
       <header className={styles.header}>
          <h3 className={styles.name}>{currentFile ? currentFile.name : ''}</h3>
-         <div className={styles.action}>
-            <button onClick={() => dispatch({ type: 'SAVE_FILE' })}>
+         <div className={styles.actions}>
+            <button
+               className={styles.action}
+               onClick={() => dispatch({ type: 'SAVE_FILE' })}>
                <span className={styles.icon}>
                   <Save />
                </span>
                <span className={styles.text}>Save</span>
             </button>
-            <button onClick={() => dispatch({ type: 'DOWNLOAD_FILE' })}>
+            <button
+               className={styles.action}
+               onClick={() => dispatch({ type: 'DOWNLOAD_FILE' })}>
                <span className={styles.icon}>
                   <Download />
                </span>

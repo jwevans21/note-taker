@@ -1,10 +1,7 @@
 import { nanoid } from 'nanoid';
 import { FilesContextType } from '../reducer.types';
 
-type Payload = {
-   name: string;
-   content: string;
-};
+import type { ACTION_PAYLOAD_TYPES } from '../payloads';
 
 function idExistsInState(state: FilesContextType, id: string) {
    return (
@@ -13,29 +10,25 @@ function idExistsInState(state: FilesContextType, id: string) {
    );
 }
 
-export function createFile(
+export function createFolder(
    state: FilesContextType,
-   payload: Payload
+   payload: ACTION_PAYLOAD_TYPES['ADD_FOLDER']
 ): FilesContextType {
    const id = nanoid();
    if (idExistsInState(state, id)) {
-      return createFile(state, payload);
+      return createFolder(state, payload);
    } else {
       return {
-         currentFile: {
-            id,
-            path: `root/${id}`,
-            name: payload.name,
-         },
-         folders: state.folders,
-         files: [
-            ...state.files,
+         ...state,
+         folders: [
+            ...state.folders,
             {
                id: id,
                name: payload.name,
-               content: payload.content,
                createdAt: new Date().toISOString(),
                updatedAt: new Date().toISOString(),
+               files: [],
+               folders: [],
             },
          ],
       };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/CreationDialog.module.scss';
 import form from '../styles/Form.module.scss';
@@ -16,7 +16,8 @@ const FileCreationDialog = ({ shown, close }: Props) => {
    const [fileName, setFileName] = React.useState('');
    const [path, setPath] = React.useState('');
 
-   const handleSubmit = () => {
+   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
       dispatch({
          type: 'ADD_FILE',
          payload: {
@@ -25,11 +26,14 @@ const FileCreationDialog = ({ shown, close }: Props) => {
             content: '',
          },
       });
+      setFileName('');
+      setPath('');
+      close();
    };
 
    return (
       <div className={styles.dialog__backdrop} data-shown={shown}>
-         <form className={[styles.dialog, form.form].join(' ')}>
+         <form className={[styles.dialog, form.form].join(' ')} onSubmit={handleSubmit}>
             <div className={styles.content}>
                <h2>Create New File</h2>
                <div className={form.group}>
@@ -47,7 +51,7 @@ const FileCreationDialog = ({ shown, close }: Props) => {
                </div>
             </div>
             <div className={styles.actions}>
-               <button className={styles.action} onClick={handleSubmit}>
+               <button className={styles.action} type={'submit'}>
                   Create
                </button>
             </div>

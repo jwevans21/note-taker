@@ -1,14 +1,13 @@
-import { Folder } from '../files.types';
+import { Folder } from '../../files.types';
 import { FilesContextType } from '../reducer.types';
 
-type Payload = {
-   content: string;
-};
+import type { ACTION_PAYLOAD_TYPES } from '../payloads';
+
 
 function modifyFolder(
    folder: Folder,
    state: FilesContextType,
-   payload: Payload,
+   payload: ACTION_PAYLOAD_TYPES['UPDATE_FILE'],
    path: string[],
    index: number
 ): Folder {
@@ -43,7 +42,7 @@ function modifyFolder(
 
 export function updateFile(
    state: FilesContextType,
-   payload: Payload
+   payload: ACTION_PAYLOAD_TYPES['UPDATE_FILE']
 ): FilesContextType {
    if (state.currentFile === null) {
       return state;

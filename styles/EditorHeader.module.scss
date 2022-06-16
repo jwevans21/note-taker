@@ -19,6 +19,56 @@
    }
 
    .actions{
+      margin-right: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
 
+      .action {
+         padding: 0.25rem;
+         margin: 0;
+         display: flex;
+         flex-direction: row;
+         justify-content: center;
+         align-items: center;
+
+         background-color: transparent;
+         color: var(--on-bg);
+         border-style: none;
+
+         cursor: pointer;
+
+         &:hover {
+            filter: brightness(0.8);
+         }
+
+         .icon{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+
+            &:hover {
+               ~ .text {
+                  display: block;
+               }
+            }
+         }
+
+         .text{
+            display: none;
+            position: absolute;
+
+            padding: 0.5rem;
+
+            background-color: var(--clr-bg);
+            border-radius: 0.5rem;
+            
+            transform: translateY(100%);
+         }
+      }
    }
 }

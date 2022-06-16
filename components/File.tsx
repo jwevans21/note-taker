@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { File as FileType } from '../utils/files.types';
 
-import { useFilesContext } from '../utils/files-context';
+import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/File.module.scss';
 
