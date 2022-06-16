@@ -4,7 +4,6 @@ import { FilesContextType } from '../reducer.types';
 export function downloadFile(state: FilesContextType): FilesContextType {
    if(state.currentFile) {
       const file = getFile(state.currentFile.path, state);
-      console.log(file)
       if(file) {
          const blob = new Blob([file.content], { type: 'text/plain' });
          const url = window.URL.createObjectURL(blob);

@@ -22,7 +22,11 @@ export function createFile(
       return createFile(state, payload);
    } else {
       return {
-         currentFile: id,
+         currentFile: {
+            id,
+            path: `root/${id}`,
+            name: payload.name,
+         },
          folders: state.folders,
          files: [
             ...state.files,

@@ -25,7 +25,9 @@ const EditorArea = () => {
       getFile(state.currentFile?.path || '', state)
    );
 
-   React.useEffect(
+   const [htmlString, setHtmlString] = React.useState('');
+
+  /*  React.useEffect(
       () => {
          const currentFile = getFile(
             state.currentFile ? state.currentFile.path : '',
@@ -39,7 +41,7 @@ const EditorArea = () => {
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [state.currentFile]
-   );
+   ); */
 
    React.useEffect(() => {
       if (inputRef.current && outputRef.current) {
@@ -54,6 +56,7 @@ const EditorArea = () => {
                   },
                });
                setFile(file ? { ...file, content: newCode } : null);
+               setHtmlString(parseMarkdown(newCode));
             }
          );
 
@@ -63,7 +66,9 @@ const EditorArea = () => {
          };
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [state]);
+   }, [state.currentFile]);
+
+
 
    return state.currentFile !== null ? (
       <>
@@ -73,13 +78,13 @@ const EditorArea = () => {
          </section>
          <section className={styles.preview}>
             <div ref={outputRef}>
-               {parseHtml(parseMarkdown(file ? file.content : ''))}
+               {parseHtml(htmlString)}
             </div>
          </section>
       </>
    ) : (
-      <div>
-         <h1>No file selected</h1>
+      <div className={styles.noFile}>
+         <h3>No file selected</h3>
       </div>
    );
 };
