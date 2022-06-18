@@ -67,13 +67,13 @@ const FileExplorer = () => {
                   <Folder
                      key={folder.id}
                      folder={folder}
-                     path={`root/${folder.id}`}
+                     path={`/${folder.id}`}
                   />
                ))}
             {files &&
                files.length > 0 &&
                files.map((file) => (
-                  <File key={file.id} file={file} path={`root/${file.id}`} />
+                  <File key={file.id} file={file} path={`/${file.id}`} />
                ))}
          </div>
          <FileCreationDialog shown={createFileDialogOpen} close={()=>setCreateFileDialogOpen(false)} />

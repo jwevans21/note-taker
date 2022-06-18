@@ -11,6 +11,8 @@ const FilesContext = React.createContext<ReducedFilesContextType>({
       currentFile: null,
       files: [],
       folders: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
    },
    dispatch: () => {},
 });

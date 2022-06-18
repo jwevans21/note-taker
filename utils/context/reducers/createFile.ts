@@ -5,6 +5,8 @@ import { FilesContextType } from '../reducer.types';
 
 import type { ACTION_PAYLOAD_TYPES } from '../payloads';
 
+import type { Data } from '../../api/data.types';
+
 import { idExistsInState } from '../helpers';
 
 function addFileInFolder(
@@ -36,47 +38,52 @@ function addFileInFolder(
 
 export function createFile(
    state: FilesContextType,
-   payload: ACTION_PAYLOAD_TYPES['ADD_FILE']
-): FilesContextType {
-   const id = nanoid();
-   if (idExistsInState(state, id)) {
-      return createFile(state, payload);
-   } else {
-      const path = payload.path.split('/');
-      const file = {
-         id: id,
+   payload: ACTION_PAYLOAD_TYPES['ADD_FILE'],
+   setState: React.Dispatch<React.SetStateAction<FilesContextType>>
+): void {
+   let newState = state;
+
+   fetch('/api/data/files/add', {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
          name: payload.name,
          content: payload.content,
-         createdAt: new Date().toISOString(),
-         updatedAt: new Date().toISOString(),
-      };
-      if (path.length === 1) {
-         return {
-            currentFile: {
-               id,
-               path: `${payload.path}/${id}`,
-               name: payload.name,
-            },
-            folders: state.folders,
-            files: [file, ...state.files],
-         };
-      } else {
-         let index = 1;
-         return {
-            currentFile: {
-               id,
-               path: `${payload.path}/${id}`,
-               name: payload.name,
-            },
-            files: state.files,
-            folders: state.folders.map((folder) => {
-               if (folder.id === path[index]) {
-                  return addFileInFolder(folder, file, path, index + 1);
-               } else {
-                  return folder;
-               }
-            }),
-         };
-      }
-   }
+         path: payload.path,
+      }),
+   })
+      .then((res) => {
+         return res.json();
+      })
+      .then(
+         (
+            json:
+               | { success: true; data: Data, added: File }
+               | { success: false; error: string }
+         ) => {
+            if (json.success) {
+               console.log('json', json.data);
+               setState({
+                  ...newState,
+                  currentFile: {
+                     id: json.added.id,
+                     name: json.added.name,
+                     path: payload.path,
+                  },
+                  files: json.data.files,
+                  folders: json.data.folders,
+                  updatedAt: json.data.updatedAt,
+               });
+            } else {
+               console.error(json.error);
+               setState(newState);
+            }
+         }
+      )
+      .catch((err) => {
+         console.error(err);
+         setState(newState);
+      });
 }

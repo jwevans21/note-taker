@@ -44,14 +44,15 @@ function modifyFolder(
 
 export function updateFile(
    state: FilesContextType,
-   payload: ACTION_PAYLOAD_TYPES['UPDATE_FILE']
-): FilesContextType {
+   payload: ACTION_PAYLOAD_TYPES['UPDATE_FILE'],
+   setState: React.Dispatch<React.SetStateAction<FilesContextType>>
+): void {
    if (state.currentFile === null) {
-      return state;
+      setState(state);
    } else {
       const path = state.currentFile.path.split('/');
       if (path.length === 2) {
-         return {
+         setState({
             ...state,
             files: state.files.map((file) => {
                if (file.id === state.currentFile?.id) {
@@ -64,10 +65,11 @@ export function updateFile(
                   return file;
                }
             }),
-         };
+            updatedAt: new Date().toISOString(),
+         });
       } else {
          let index = 1;
-         return {
+         setState({
             ...state,
             folders: state.folders.map((folder) => {
                if (folder.id === path[index]) {
@@ -76,7 +78,8 @@ export function updateFile(
                   return folder;
                }
             }),
-         };
+            updatedAt: new Date().toISOString(),
+         });
       }
    }
 }

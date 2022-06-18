@@ -5,8 +5,9 @@ import type { ACTION_PAYLOAD_TYPES } from '../payloads';
 
 export function downloadFile(
    state: FilesContextType,
-   payload?: ACTION_PAYLOAD_TYPES['DOWNLOAD_FILE']
-): FilesContextType {
+   payload?: ACTION_PAYLOAD_TYPES['DOWNLOAD_FILE'],
+   setState?: React.Dispatch<React.SetStateAction<FilesContextType>>
+): void {
    if (state.currentFile) {
       const file = getFile(state.currentFile.path, state);
       if (file) {
@@ -21,6 +22,4 @@ export function downloadFile(
          window.URL.revokeObjectURL(url);
       }
    }
-
-   return state;
 }

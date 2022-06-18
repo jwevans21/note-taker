@@ -1,6 +1,7 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
+import { nanoid } from 'nanoid';
 
 export const config = {
    credential: cert({
@@ -10,7 +11,7 @@ export const config = {
    }),
 };
 
-export const app = initializeApp(config);
+export const app = initializeApp(config, nanoid(5));
 
 export const db = getFirestore(app);
 export const storage = getStorage(app);

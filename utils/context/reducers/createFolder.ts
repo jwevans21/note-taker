@@ -35,11 +35,12 @@ function addFolderInFolder(
 
 export function createFolder(
    state: FilesContextType,
-   payload: ACTION_PAYLOAD_TYPES['ADD_FOLDER']
-): FilesContextType {
+   payload: ACTION_PAYLOAD_TYPES['ADD_FOLDER'],
+   setState: React.Dispatch<React.SetStateAction<FilesContextType>>
+): void {
    const id = nanoid();
    if (idExistsInState(state, id)) {
-      return createFolder(state, payload);
+      createFolder(state, payload, setState);
    } else {
       const path = payload.path.split('/');
       const newFolder: Folder = {
@@ -52,13 +53,13 @@ export function createFolder(
       };
 
       if (path.length === 1) {
-         return {
+         setState({
             ...state,
             folders: [newFolder, ...state.folders],
-         };
+         });
       } else {
          let index = 1;
-         return {
+         setState({
             ...state,
             folders: state.folders.map((folder) => {
                if (folder.id === path[index]) {
@@ -67,7 +68,7 @@ export function createFolder(
                   return folder;
                }
             }),
-         };
+         });
       }
    }
 }

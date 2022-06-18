@@ -11,10 +11,25 @@ type FilesProviderProps = {
    initialState: FilesContextType;
 };
 
+function useReducer<S, A>(
+   reducer: (state: S, action: A, setState: React.Dispatch<React.SetStateAction<S>>) => void,
+   initialState: S
+): [S, React.Dispatch<A>] {
+   const [state, setState] = React.useState(initialState);
+   const dispatch = React.useCallback(
+      (action: A) => {
+         reducer(state, action, setState);
+      },
+      [state, setState, reducer]
+   );
+   return [state, dispatch];
+}
+
 const FilesProvider = ({ children, initialState }: FilesProviderProps) => {
-   const [state, dispatch] = React.useReducer<
-      (state: FilesContextType, action: Action) => FilesContextType
-   >(filesReducer, initialState);
+   const [state, dispatch] = useReducer<FilesContextType, Action>(
+      filesReducer,
+      initialState
+   );
    const value = { state: state, dispatch: dispatch };
 
    return (

@@ -4,32 +4,39 @@ import type {
    NextPage,
 } from 'next';
 import type { File, Folder } from '../utils/files.types';
+import type { Data } from '../utils/api/data.types';
+
 import { withSessionSsr } from '../utils/withSession';
 
 import React from 'react';
 import Head from 'next/head';
 
-import FilesProvider  from '../utils/context/files-provider';
+import FilesProvider from '../utils/context/files-provider';
 
 import UserMenu from '../components/UserMenu';
 import FileExplorer from '../components/FileExplorer';
 import EditorArea from '../components/EditorArea';
 
 import styles from '../styles/Home.module.scss';
+import { db } from '../utils/firebase-app';
 
-type Data = {
-   files: File[] | [];
-   folders: Folder[] | [];
+type PageData = {
+   files: Data['files'];
+   folders: Data['folders'];
+   createdAt: Data['createdAt'];
+   updatedAt: Data['updatedAt'];
    name: string;
 };
 
-const Home: NextPage<Data> = ({ files, folders, name }) => {
+const Home: NextPage<PageData> = ({ files, folders, name }) => {
    return (
       <FilesProvider
          initialState={{
             currentFile: null,
             files,
             folders,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
          }}>
          <div className={styles.container}>
             <Head>
@@ -69,60 +76,19 @@ export const getServerSideProps: GetServerSideProps = withSessionSsr(
          };
       }
 
-      const data: Data = {
-         folders: [
-            {
-               id: 'xiQzBcSVgS_m3V6aG38t5',
-               name: 'Folder 1',
-               files: [
-                  {
-                     id: '2ohdh-9d3ajRXcNyqaOgv',
-                     name: 'File 1',
-                     content: '# This is a markdown file with some content',
-                     createdAt: new Date().toISOString(),
-                     updatedAt: new Date().toISOString(),
-                  },
-               ],
-               folders: [
-                  {
-                     id: 'DoJdOg1KfXMzHN32FPaWQ',
-                     name: 'Folder 2',
-                     files: [
-                        {
-                           id: 'bpjBkDi4HvfA6cGBZG4HL',
-                           name: 'File 2',
-                           content: '# This is a markdown file',
-                           createdAt: new Date().toISOString(),
-                           updatedAt: new Date().toISOString(),
-                        },
-                     ],
-                     folders: [],
-                     createdAt: new Date().toISOString(),
-                     updatedAt: new Date().toISOString(),
-                  },
-               ],
-               createdAt: new Date().toISOString(),
-               updatedAt: new Date().toISOString(),
-            },
-         ],
-         files: [
-            {
-               name: 'README.md',
-               id: 'VP30xTMFNyqrhZUPUKw_K',
-               createdAt: '2020-01-01T00:00:00.000Z',
-               updatedAt: '2020-01-01T00:00:00.000Z',
-               content: '# README.md',
-            },
-         ],
-         name: user ? (user.name ? user.name : '') : '',
+      const data: PageData = {
+         ...(((await (await db.collection('users').doc(user.id).get()).data()
+            ?.data) as Data) || {
+            files: [],
+            folders: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+         }),
+         name: user.name,
       };
 
       return {
-         props: {
-            files: data.files || [],
-            folders: data.folders || [],
-            name: data.name,
-         },
+         props: data,
       };
    }
 );

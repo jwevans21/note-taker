@@ -12,6 +12,8 @@ export type FilesContextType = {
    } | null;
    files: File[] | [];
    folders: Folder[] | [];
+   createdAt: string;
+   updatedAt: string;
 };
 
 export type Action =
@@ -42,5 +44,5 @@ export type Action =
 
 export type ReducedFilesContextType = {
    state: FilesContextType;
-   dispatch: React.Dispatch<Action>;
+   dispatch: (action: Action) => void;
 };
