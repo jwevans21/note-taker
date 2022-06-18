@@ -2,6 +2,7 @@ import type { File } from '../utils/files.types';
 
 import React from 'react';
 import { useFilesContext } from '../utils/context/files-context';
+import { ACTIONS } from '../utils/context/payloads';
 
 import EditorHeader from './EditorHeader';
 
@@ -25,7 +26,7 @@ const EditorArea = () => {
 
    const [htmlString, setHtmlString] = React.useState('');
 
-  /*  React.useEffect(
+   /*  React.useEffect(
       () => {
          const currentFile = getFile(
             state.currentFile ? state.currentFile.path : '',
@@ -48,7 +49,7 @@ const EditorArea = () => {
             getFile(state.currentFile?.path || '', state)?.content || '',
             (newCode) => {
                dispatch({
-                  type: 'UPDATE_FILE',
+                  type: ACTIONS.UPDATE_FILE,
                   payload: {
                      content: newCode,
                   },
@@ -66,8 +67,6 @@ const EditorArea = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [state.currentFile]);
 
-
-
    return state.currentFile !== null ? (
       <>
          <EditorHeader />
@@ -75,9 +74,7 @@ const EditorArea = () => {
             <div ref={inputRef}></div>
          </section>
          <section className={styles.preview}>
-            <div ref={outputRef}>
-               {parseHtml(htmlString)}
-            </div>
+            <div ref={outputRef}>{parseHtml(htmlString)}</div>
          </section>
       </>
    ) : (

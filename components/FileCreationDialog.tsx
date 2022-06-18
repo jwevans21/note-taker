@@ -6,6 +6,7 @@ import styles from '../styles/CreationDialog.module.scss';
 
 import FolderTree from './FolderTree';
 import Modal from './Modal';
+import { ACTIONS } from '../utils/context/payloads';
 
 type Props = {
    shown: boolean;
@@ -21,7 +22,7 @@ const FileCreationDialog = ({ shown, close }: Props) => {
    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       dispatch({
-         type: 'ADD_FILE',
+         type: ACTIONS.ADD_FILE,
          payload: {
             name: fileName,
             path: path,
@@ -40,7 +41,7 @@ const FileCreationDialog = ({ shown, close }: Props) => {
          heading={'Create New File'}
          style={'accent'}>
          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.group}>
+            <div className={`${styles.group} ${styles.input__name}`.trim()}>
                <input
                   id='fileName'
                   type='text'
@@ -53,10 +54,23 @@ const FileCreationDialog = ({ shown, close }: Props) => {
                   File Name
                </label>
             </div>
-            <div>
+            <div className={`${styles.group} ${styles.input__type}`.trim()}>
+               <input
+                  id='fileName'
+                  type='text'
+                  placeholder='File Name'
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                  className={styles.input}
+               />
+               <label htmlFor='fileName' className={styles.label}>
+                  File Type
+               </label>
+            </div>
+            <div className={`${styles.group} ${styles.input__folder}`.trim()}>
                <FolderTree setPath={setPath} />
             </div>
-            <div className={styles.actions}>
+            <div className={`${styles.actions} ${styles.input__submit}`.trim()}>
                <button className={styles.action} type='submit'>
                   Create
                </button>

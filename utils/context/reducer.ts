@@ -1,7 +1,9 @@
 import React from 'react';
 import type { FilesContextType, Action } from './reducer.types';
+import { ACTIONS } from './payloads';
 import {
    createFile,
+   deleteFile,
    createFolder,
    updateFile,
    currentFile,
@@ -14,18 +16,20 @@ export function filesReducer(
    setState: React.Dispatch<React.SetStateAction<FilesContextType>>
 ): void {
    switch (action.type) {
-      case 'ADD_FILE':
+      case ACTIONS.ADD_FILE:
          return createFile(state, action.payload, setState);
-      case 'ADD_FOLDER':
+      case ACTIONS.DELETE_FILE:
+         return deleteFile(state, action.payload, setState);
+      case ACTIONS.ADD_FOLDER:
          return createFolder(state, action.payload, setState);
-      case 'UPDATE_FILE':
+      case ACTIONS.UPDATE_FILE:
          return updateFile(state, action.payload, setState);
-      case 'SET_CURRENT_FILE':
+      case ACTIONS.SET_CURRENT_FILE:
          return currentFile(state, action.payload, setState);
-      case 'DOWNLOAD_FILE':
+      case ACTIONS.DOWNLOAD_FILE:
          return downloadFile(state, action.payload, setState);
       default:
          console.error(new Error(`Unhandled action type: ${action.type}`));
-         return setState(state);
+         break;
    }
 }

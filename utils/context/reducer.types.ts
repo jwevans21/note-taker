@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { File, Folder } from '../files.types';
 
 import type { ACTION_TYPE, ACTION_PAYLOAD_TYPES } from './payloads';
@@ -20,6 +18,10 @@ export type Action =
    | {
         type: ACTION_TYPE['ADD_FILE'];
         payload: ACTION_PAYLOAD_TYPES['ADD_FILE'];
+     }
+   | {
+        type: ACTION_TYPE['DELETE_FILE'];
+        payload: ACTION_PAYLOAD_TYPES['DELETE_FILE'];
      }
    | {
         type: ACTION_TYPE['ADD_FOLDER'];

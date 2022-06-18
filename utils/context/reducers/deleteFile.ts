@@ -1,29 +1,30 @@
 import type { FilesContextType } from '../reducer.types';
 import type { ACTION_PAYLOAD_TYPES } from '../payloads';
-import type { AddFolderAPIResponse } from '../../api/data.types';
+import type { DeleteFileAPIResponse } from '../../api/data.types';
 
-export function createFolder(
+export function deleteFile(
    state: FilesContextType,
-   payload: ACTION_PAYLOAD_TYPES['ADD_FOLDER'],
+   payload: ACTION_PAYLOAD_TYPES['DELETE_FILE'],
    setState: React.Dispatch<React.SetStateAction<FilesContextType>>
 ): void {
-   fetch('/api/data/folders/add', {
+   fetch('/api/data/files/delete', {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-         name: payload.name,
+         id: payload.id,
          path: payload.path,
       }),
    })
       .then(async (res) => {
-         return (await res.json()) as AddFolderAPIResponse;
+         return (await res.json()) as DeleteFileAPIResponse;
       })
       .then((json) => {
          if (json.success) {
             setState({
                ...state,
+               currentFile: null,
                files: json.data.files,
                folders: json.data.folders,
                updatedAt: json.data.updatedAt,

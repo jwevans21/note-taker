@@ -6,6 +6,7 @@ import styles from '../styles/CreationDialog.module.scss';
 
 import FolderTree from './FolderTree';
 import Modal from './Modal';
+import { ACTIONS } from '../utils/context/payloads';
 
 type Props = {
    shown: boolean;
@@ -21,7 +22,7 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       dispatch({
-         type: 'ADD_FOLDER',
+         type: ACTIONS.ADD_FOLDER,
          payload: {
             name: folderName,
             path: path,
@@ -38,10 +39,8 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
          close={close}
          heading={'Create New Folder'}
          style={'accent'}>
-         <form
-            className={styles.form}
-            onSubmit={handleSubmit}>
-            <div className={styles.group}>
+         <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={`${styles.group} ${styles.input__name}`.trim()}>
                <input
                   id='folderName'
                   type='text'
@@ -54,10 +53,10 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
                   Folder Name
                </label>
             </div>
-            <div>
+            <div className={`${styles.group} ${styles.input__folder}`.trim()}>
                <FolderTree setPath={setPath} />
             </div>
-            <div className={styles.actions}>
+            <div className={`${styles.actions} ${styles.input__submit}`.trim()}>
                <button className={styles.action} type='submit'>
                   Create
                </button>
