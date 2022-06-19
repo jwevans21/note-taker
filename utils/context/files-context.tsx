@@ -8,7 +8,13 @@ const FilesContext = React.createContext<ReducedFilesContextType>({
       deleteFileDialog: {
          open: false,
       },
+      renameFileDialog: {
+         open: false,
+      },
       deleteFolderDialog: {
+         open: false,
+      },
+      renameFolderDialog: {
          open: false,
       },
       files: [],

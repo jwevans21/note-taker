@@ -88,7 +88,12 @@ const EditorHeader = () => {
             </button>
             <button
                className={styles.action}
-               onClick={() => dispatch({ type: ACTIONS.DOWNLOAD_FILE })}>
+               onClick={() =>
+                  dispatch({
+                     type: ACTIONS.DOWNLOAD_FILE,
+                     payload: { path: currentFile?.path || '' },
+                  })
+               }>
                <span className={styles.icon}>
                   <Download />
                </span>
