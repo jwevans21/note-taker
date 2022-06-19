@@ -1,26 +1,42 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import type {
    Data,
-   DeleteFolderAPIPayload,
-   DeleteFolderAPIResponse,
+   RenameFileAPIPayload,
+   RenameFileAPIResponse,
 } from '../../../../utils/api/data.types';
-import type { Folder } from '../../../../utils/files.types';
+import type { Folder, File } from '../../../../utils/files.types';
 
 import { withSessionRoute } from '../../../../utils/withSession';
 import { db } from '../../../../utils/firebase-app';
 
 import { idExistsInState } from '../../../../utils/api/helpers';
 
-function deleteFolderInFolder(
+const emptyFile: File = {
+   id: '',
+   name: '',
+   content: '',
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+};
+
+function renameFileInFolder(
    folder: Folder,
    id: string,
    path: string[],
+   name: string,
    index: number
 ): Folder {
    if (index === path.length - 1) {
       return {
          ...folder,
-         folders: folder.folders.filter((f) => f.id !== id),
+         files: [
+            {
+               ...(folder.files.find((file) => file.id === id) || emptyFile),
+               name: name,
+               updatedAt: new Date().toISOString(),
+            },
+            ...folder.files.filter((f) => f.id !== id),
+         ],
          updatedAt: new Date().toISOString(),
       };
    } else {
@@ -28,7 +44,7 @@ function deleteFolderInFolder(
          ...folder,
          folders: folder.folders.map((f) => {
             if (f.id === path[index]) {
-               return deleteFolderInFolder(f, id, path, index + 1);
+               return renameFileInFolder(f, id, path, name, index + 1);
             } else {
                return f;
             }
@@ -40,10 +56,10 @@ function deleteFolderInFolder(
 
 const handler: NextApiHandler = async (
    req: NextApiRequest,
-   res: NextApiResponse<DeleteFolderAPIResponse>
+   res: NextApiResponse<RenameFileAPIResponse>
 ) => {
-   const body = req.body as DeleteFolderAPIPayload;
-   const { id, path } = body;
+   const body = req.body as RenameFileAPIPayload;
+   const { id, path, name } = body;
    const { session } = req;
    if (session === undefined) {
       res.status(401).json({ success: false, error: 'Unauthorized' });
@@ -79,7 +95,15 @@ const handler: NextApiHandler = async (
    if (pathArray.length === 2) {
       updatedData = {
          ...updatedData,
-         folders: updatedData.folders.filter((file) => file.id !== id),
+         files: [
+            {
+               ...(updatedData.files.find((file) => file.id === id) ||
+                  emptyFile),
+               name: name,
+               updatedAt: new Date().toISOString(),
+            },
+            ...updatedData.files.filter((file) => file.id !== id),
+         ],
          updatedAt: new Date().toISOString(),
       };
    } else {
@@ -88,7 +112,13 @@ const handler: NextApiHandler = async (
          ...updatedData,
          folders: updatedData.folders.map((folder) => {
             if (folder.id === pathArray[index]) {
-               return deleteFolderInFolder(folder, id, pathArray, index + 1);
+               return renameFileInFolder(
+                  folder,
+                  id,
+                  pathArray,
+                  name,
+                  index + 1
+               );
             } else {
                return folder;
             }

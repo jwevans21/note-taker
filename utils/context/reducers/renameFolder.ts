@@ -1,36 +1,31 @@
 import type { FilesContextType } from '../reducer.types';
 import type { ACTION_PAYLOAD_TYPES } from '../payloads';
-import type { AddFileAPIResponse } from '../../api/data.types';
+import type { RenameFileAPIResponse } from '../../api/data.types';
 
-export function createFile(
+export function renameFolder(
    state: FilesContextType,
-   payload: ACTION_PAYLOAD_TYPES['ADD_FILE'],
+   payload: ACTION_PAYLOAD_TYPES['RENAME_FOLDER'],
    setState: React.Dispatch<React.SetStateAction<FilesContextType>>
 ): void {
-   fetch('/api/data/files/add', {
+   fetch('/api/data/folders/rename', {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+         id: payload.id,
          name: payload.name,
-         content: payload.content,
          path: payload.path,
       }),
    })
       .then(async (res) => {
-         return (await res.json()) as AddFileAPIResponse;
+         return (await res.json()) as RenameFileAPIResponse;
       })
       .then((json) => {
          if (json.success) {
             setState((currentState) => ({
                ...currentState,
-               currentFile: {
-                  id: json.added.id,
-                  name: json.added.name,
-                  path: payload.path,
-               },
-               files: json.data.files,
+               currentFile: null,
                folders: json.data.folders,
                updatedAt: json.data.updatedAt,
             }));

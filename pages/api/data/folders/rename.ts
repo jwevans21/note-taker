@@ -1,26 +1,43 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import type {
    Data,
-   DeleteFolderAPIPayload,
-   DeleteFolderAPIResponse,
+   RenameFolderAPIPayload,
+   RenameFolderAPIResponse,
 } from '../../../../utils/api/data.types';
-import type { Folder } from '../../../../utils/files.types';
+import type { Folder, File } from '../../../../utils/files.types';
 
 import { withSessionRoute } from '../../../../utils/withSession';
 import { db } from '../../../../utils/firebase-app';
 
 import { idExistsInState } from '../../../../utils/api/helpers';
 
-function deleteFolderInFolder(
+const emptyFolder: Folder = {
+   id: '',
+   name: '',
+   files: [],
+   folders: [],
+   createdAt: new Date().toISOString(),
+   updatedAt: new Date().toISOString(),
+};
+
+function renameFolderInFolder(
    folder: Folder,
    id: string,
    path: string[],
+   name: string,
    index: number
 ): Folder {
    if (index === path.length - 1) {
       return {
          ...folder,
-         folders: folder.folders.filter((f) => f.id !== id),
+         folders: [
+            {
+               ...(folder.folders.find((file) => file.id === id) || emptyFolder),
+               name: name,
+               updatedAt: new Date().toISOString(),
+            },
+            ...folder.folders.filter((f) => f.id !== id),
+         ],
          updatedAt: new Date().toISOString(),
       };
    } else {
@@ -28,7 +45,7 @@ function deleteFolderInFolder(
          ...folder,
          folders: folder.folders.map((f) => {
             if (f.id === path[index]) {
-               return deleteFolderInFolder(f, id, path, index + 1);
+               return renameFolderInFolder(f, id, path, name, index + 1);
             } else {
                return f;
             }
@@ -40,10 +57,10 @@ function deleteFolderInFolder(
 
 const handler: NextApiHandler = async (
    req: NextApiRequest,
-   res: NextApiResponse<DeleteFolderAPIResponse>
+   res: NextApiResponse<RenameFolderAPIResponse>
 ) => {
-   const body = req.body as DeleteFolderAPIPayload;
-   const { id, path } = body;
+   const body = req.body as RenameFolderAPIPayload;
+   const { id, path, name } = body;
    const { session } = req;
    if (session === undefined) {
       res.status(401).json({ success: false, error: 'Unauthorized' });
@@ -79,7 +96,15 @@ const handler: NextApiHandler = async (
    if (pathArray.length === 2) {
       updatedData = {
          ...updatedData,
-         folders: updatedData.folders.filter((file) => file.id !== id),
+         folders: [
+            {
+               ...(updatedData.folders.find((file) => file.id === id) ||
+                  emptyFolder),
+               name: name,
+               updatedAt: new Date().toISOString(),
+            },
+            ...updatedData.folders.filter((file) => file.id !== id),
+         ],
          updatedAt: new Date().toISOString(),
       };
    } else {
@@ -88,7 +113,13 @@ const handler: NextApiHandler = async (
          ...updatedData,
          folders: updatedData.folders.map((folder) => {
             if (folder.id === pathArray[index]) {
-               return deleteFolderInFolder(folder, id, pathArray, index + 1);
+               return renameFolderInFolder(
+                  folder,
+                  id,
+                  pathArray,
+                  name,
+                  index + 1
+               );
             } else {
                return folder;
             }

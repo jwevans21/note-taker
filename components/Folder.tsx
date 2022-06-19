@@ -131,8 +131,17 @@ const Folder = ({ folder: { name, id, folders, files }, path }: Props) => {
                }
                renameItem={() =>
                   dispatch({
-                     type: ACTIONS.RENAME_FOLDER,
-                     payload: { id, path, name },
+                     type: ACTIONS.OPEN_RENAME_FOLDER_DIALOG,
+                     payload: {
+                        id,
+                        path,
+                        name,
+                        close: () =>
+                           dispatch({
+                              type: ACTIONS.CLOSE_RENAME_FOLDER_DIALOG,
+                              payload: null,
+                           }),
+                     },
                   })
                }
                x={x}

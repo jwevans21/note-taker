@@ -25,6 +25,22 @@ export type AddFileAPIResponse =
         error: string;
      };
 
+export type RenameFileAPIPayload = {
+   id: string;
+   name: string;
+   path: string;
+};
+
+export type RenameFileAPIResponse =
+   | {
+        success: true;
+        data: Data;
+     }
+   | {
+        success: false;
+        error: string;
+     };
+
 export type DeleteFileAPIPayload = {
    id: string;
    path: string;
@@ -50,6 +66,22 @@ export type AddFolderAPIResponse =
         success: true;
         data: Data;
         added: Folder;
+     }
+   | {
+        success: false;
+        error: string;
+     };
+
+export type RenameFolderAPIPayload = {
+   id: string;
+   name: string;
+   path: string;
+};
+
+export type RenameFolderAPIResponse =
+   | {
+        success: true;
+        data: Data;
      }
    | {
         success: false;

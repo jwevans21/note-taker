@@ -102,8 +102,17 @@ const File = ({ file: { name, id }, path }: Props) => {
             }
             renameItem={() =>
                dispatch({
-                  type: ACTIONS.RENAME_FILE,
-                  payload: { id, path, name },
+                  type: ACTIONS.OPEN_RENAME_FILE_DIALOG,
+                  payload: {
+                     id,
+                     path,
+                     name,
+                     close: () =>
+                        dispatch({
+                           type: ACTIONS.CLOSE_RENAME_FILE_DIALOG,
+                           payload: null,
+                        }),
+                  },
                })
             }
             x={x}

@@ -19,6 +19,8 @@ import EditorArea from '../components/EditorArea';
 
 import DeleteFileDialog from '../components/DeleteFileDialog';
 import DeleteFolderDialog from '../components/DeleteFolderDialog';
+import RenameFileDialog from '../components/RenameFileDialog';
+import RenameFolderDialog from '../components/RenameFolderDialog';
 
 import styles from '../styles/Home.module.scss';
 import { db } from '../utils/firebase-app';
@@ -31,7 +33,13 @@ type PageData = {
    name: string;
 };
 
-const Home: NextPage<PageData> = ({ files, folders, name }) => {
+const Home: NextPage<PageData> = ({
+   files,
+   folders,
+   createdAt,
+   updatedAt,
+   name,
+}) => {
    return (
       <FilesProvider
          initialState={{
@@ -39,13 +47,19 @@ const Home: NextPage<PageData> = ({ files, folders, name }) => {
             deleteFileDialog: {
                open: false,
             },
+            renameFileDialog: {
+               open: false,
+            },
             deleteFolderDialog: {
+               open: false,
+            },
+            renameFolderDialog: {
                open: false,
             },
             files,
             folders,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            createdAt: createdAt,
+            updatedAt: updatedAt,
          }}>
          <div className={styles.container}>
             <Head>
@@ -68,6 +82,8 @@ const Home: NextPage<PageData> = ({ files, folders, name }) => {
          </div>
          <DeleteFileDialog />
          <DeleteFolderDialog />
+         <RenameFileDialog />
+         <RenameFolderDialog />
       </FilesProvider>
    );
 };

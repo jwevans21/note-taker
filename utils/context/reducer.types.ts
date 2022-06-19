@@ -20,7 +20,29 @@ export type FilesContextType = {
       | {
            open: false;
         };
+   renameFileDialog:
+      | {
+           open: boolean;
+           id: string;
+           name: string;
+           path: string;
+           close: () => void;
+        }
+      | {
+           open: false;
+        };
    deleteFolderDialog:
+      | {
+           open: true;
+           id: string;
+           path: string;
+           name: string;
+           close: () => void;
+        }
+      | {
+           open: false;
+        };
+   renameFolderDialog:
       | {
            open: true;
            id: string;
@@ -58,7 +80,7 @@ export type Action =
      }
    | {
         type: ACTION_TYPE['DOWNLOAD_FILE'];
-        payload?: ACTION_PAYLOAD_TYPES['DOWNLOAD_FILE'];
+        payload: ACTION_PAYLOAD_TYPES['DOWNLOAD_FILE'];
      }
    | {
         type: ACTION_TYPE['DELETE_FILE'];
@@ -82,6 +104,7 @@ export type Action =
         type: ACTION_TYPE['SET_CURRENT_FILE'];
         payload: ACTION_PAYLOAD_TYPES['SET_CURRENT_FILE'];
      }
+   //File Dialogs
    | {
         type: ACTION_TYPE['OPEN_DELETE_FILE_DIALOG'];
         payload: ACTION_PAYLOAD_TYPES['OPEN_DELETE_FILE_DIALOG'];
@@ -91,12 +114,29 @@ export type Action =
         payload: ACTION_PAYLOAD_TYPES['CLOSE_DELETE_FILE_DIALOG'];
      }
    | {
+        type: ACTION_TYPE['OPEN_RENAME_FILE_DIALOG'];
+        payload: ACTION_PAYLOAD_TYPES['OPEN_RENAME_FILE_DIALOG'];
+     }
+   | {
+        type: ACTION_TYPE['CLOSE_RENAME_FILE_DIALOG'];
+        payload: ACTION_PAYLOAD_TYPES['CLOSE_RENAME_FILE_DIALOG'];
+     }
+   //Folder Dialogs
+   | {
         type: ACTION_TYPE['OPEN_DELETE_FOLDER_DIALOG'];
         payload: ACTION_PAYLOAD_TYPES['OPEN_DELETE_FOLDER_DIALOG'];
      }
    | {
         type: ACTION_TYPE['CLOSE_DELETE_FOLDER_DIALOG'];
         payload: ACTION_PAYLOAD_TYPES['CLOSE_DELETE_FOLDER_DIALOG'];
+     }
+   | {
+        type: ACTION_TYPE['OPEN_RENAME_FOLDER_DIALOG'];
+        payload: ACTION_PAYLOAD_TYPES['OPEN_RENAME_FOLDER_DIALOG'];
+     }
+   | {
+        type: ACTION_TYPE['CLOSE_RENAME_FOLDER_DIALOG'];
+        payload: ACTION_PAYLOAD_TYPES['CLOSE_RENAME_FOLDER_DIALOG'];
      };
 
 export type ReducedFilesContextType = {
