@@ -17,7 +17,13 @@ const FileCreationDialog = ({ shown, close }: Props) => {
    const { state, dispatch } = useFilesContext();
 
    const [fileName, setFileName] = React.useState('');
-   const [path, setPath] = React.useState('');
+   const [path, setPath] = React.useState('/');
+
+   function handleClose() {
+      setFileName('');
+      setPath('/');
+      close();
+   }
 
    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
@@ -30,14 +36,14 @@ const FileCreationDialog = ({ shown, close }: Props) => {
          },
       });
       setFileName('');
-      setPath('');
+      setPath('/');
       close();
    };
 
    return (
       <Modal
          shown={shown}
-         close={close}
+         close={handleClose}
          heading={'Create New File'}
          style={'accent'}>
          <form className={styles.form} onSubmit={handleSubmit}>
@@ -68,7 +74,7 @@ const FileCreationDialog = ({ shown, close }: Props) => {
                </label>
             </div>
             <div className={`${styles.group} ${styles.input__folder}`.trim()}>
-               <FolderTree setPath={setPath} />
+               <FolderTree defaultPath={path} setPath={setPath} />
             </div>
             <div className={`${styles.actions} ${styles.input__submit}`.trim()}>
                <button className={styles.action} type='submit'>

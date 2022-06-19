@@ -5,6 +5,8 @@ import type { File as FileType } from '../utils/files.types';
 import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/File.module.scss';
+import { ACTIONS } from '../utils/context/payloads';
+import FileFolderContextMenu from './FileFolderContextMenu';
 
 function FileIcon() {
    return (
@@ -41,11 +43,26 @@ type Props = {
 };
 
 const File = ({ file: { name, id }, path }: Props) => {
+   const [context, setContext] = React.useState(false);
+   const [x, setX] = React.useState(0);
+   const [y, setY] = React.useState(0);
+
+   const contextRef = React.useRef<HTMLDivElement>(null);
+
    const { dispatch } = useFilesContext();
 
-   function setAsCurrentFile() {
+   function handleContext(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      e.preventDefault();
+      setX(e.clientX);
+      setY(e.clientY);
+      setContext(true);
+   }
+
+   function setAsCurrentFile(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      e.preventDefault();
+      if (context) return;
       dispatch({
-         type: 'SET_CURRENT_FILE',
+         type: ACTIONS.SET_CURRENT_FILE,
          payload: {
             id,
             path,
@@ -55,11 +72,43 @@ const File = ({ file: { name, id }, path }: Props) => {
    }
 
    return (
-      <div className={styles.file} onClick={() => setAsCurrentFile()}>
+      <div
+         className={styles.file}
+         onClick={setAsCurrentFile}
+         onContextMenu={handleContext}>
          <span className={styles.icon}>
             <FileIcon />
          </span>
          <span className={styles.name}>{name}</span>
+
+         <FileFolderContextMenu
+            passRef={contextRef}
+            shown={context}
+            setShown={setContext}
+            deleteItem={() =>
+               dispatch({
+                  type: ACTIONS.OPEN_DELETE_FILE_DIALOG,
+                  payload: {
+                     id,
+                     path,
+                     name,
+                     close: () =>
+                        dispatch({
+                           type: ACTIONS.CLOSE_DELETE_FILE_DIALOG,
+                           payload: null,
+                        }),
+                  },
+               })
+            }
+            renameItem={() =>
+               dispatch({
+                  type: ACTIONS.RENAME_FILE,
+                  payload: { id, path, name },
+               })
+            }
+            x={x}
+            y={y}
+         />
          {/* For Actions TODO */}
          {/* <button className={styles.icon}>
             <MoreIcon />

@@ -87,7 +87,7 @@ const handler: NextApiHandler = async (
 
    const pathArray = path.split('/');
 
-   if (pathArray.length === 1) {
+   if (pathArray.length === 2) {
       updatedData = {
          ...updatedData,
          folders: [newFolder, ...data.folders],

@@ -22,12 +22,12 @@ export function createFolder(
       })
       .then((json) => {
          if (json.success) {
-            setState({
-               ...state,
+            setState((currentState) => ({
+               ...currentState,
                files: json.data.files,
                folders: json.data.folders,
                updatedAt: json.data.updatedAt,
-            });
+            }));
          } else {
             console.error(json.error);
          }

@@ -60,10 +60,16 @@ const EditorHeader = () => {
                className={styles.action}
                onClick={() =>
                   dispatch({
-                     type: ACTIONS.DELETE_FILE,
+                     type: ACTIONS.OPEN_DELETE_FILE_DIALOG,
                      payload: {
                         id: currentFile?.id || '',
                         path: currentFile?.path || '',
+                        name: currentFile?.name || '',
+                        close: () =>
+                           dispatch({
+                              type: ACTIONS.CLOSE_DELETE_FILE_DIALOG,
+                              payload: null,
+                           }),
                      },
                   })
                }>

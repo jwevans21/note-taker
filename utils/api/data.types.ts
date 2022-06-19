@@ -1,3 +1,4 @@
+import { type } from 'os';
 import type { File, Folder } from '../files.types';
 
 export type Data = {
@@ -49,6 +50,21 @@ export type AddFolderAPIResponse =
         success: true;
         data: Data;
         added: Folder;
+     }
+   | {
+        success: false;
+        error: string;
+     };
+
+export type DeleteFolderAPIPayload = {
+   id: string;
+   path: string;
+};
+
+export type DeleteFolderAPIResponse =
+   | {
+        success: true;
+        data: Data;
      }
    | {
         success: false;

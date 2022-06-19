@@ -23,7 +23,7 @@ export function createFile(
       })
       .then((json) => {
          if (json.success) {
-            setState({
+            setState((currentState) => ({
                ...state,
                currentFile: {
                   id: json.added.id,
@@ -33,7 +33,7 @@ export function createFile(
                files: json.data.files,
                folders: json.data.folders,
                updatedAt: json.data.updatedAt,
-            });
+            }));
          } else {
             console.error(json.error);
          }

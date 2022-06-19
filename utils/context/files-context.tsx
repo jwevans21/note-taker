@@ -1,14 +1,16 @@
 import React from 'react';
 
-import type {
-   FilesContextType,
-   Action,
-   ReducedFilesContextType,
-} from './reducer.types';
+import type { ReducedFilesContextType } from './reducer.types';
 
 const FilesContext = React.createContext<ReducedFilesContextType>({
    state: {
       currentFile: null,
+      deleteFileDialog: {
+         open: false,
+      },
+      deleteFolderDialog: {
+         open: false,
+      },
       files: [],
       folders: [],
       createdAt: new Date().toISOString(),

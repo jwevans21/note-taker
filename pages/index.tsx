@@ -17,6 +17,9 @@ import UserMenu from '../components/UserMenu';
 import FileExplorer from '../components/FileExplorer';
 import EditorArea from '../components/EditorArea';
 
+import DeleteFileDialog from '../components/DeleteFileDialog';
+import DeleteFolderDialog from '../components/DeleteFolderDialog';
+
 import styles from '../styles/Home.module.scss';
 import { db } from '../utils/firebase-app';
 
@@ -33,6 +36,12 @@ const Home: NextPage<PageData> = ({ files, folders, name }) => {
       <FilesProvider
          initialState={{
             currentFile: null,
+            deleteFileDialog: {
+               open: false,
+            },
+            deleteFolderDialog: {
+               open: false,
+            },
             files,
             folders,
             createdAt: new Date().toISOString(),
@@ -57,6 +66,8 @@ const Home: NextPage<PageData> = ({ files, folders, name }) => {
                <EditorArea />
             </main>
          </div>
+         <DeleteFileDialog />
+         <DeleteFolderDialog />
       </FilesProvider>
    );
 };

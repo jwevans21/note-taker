@@ -13,11 +13,12 @@ const FolderTreeContext = React.createContext<{
 
 type ProviderProps = {
    children: React.ReactNode;
+   defaultPath: string;
    readonly updatePath: (path: string) => void;
 };
 
-const Provider = ({ children, updatePath }: ProviderProps) => {
-   const [path, setPath] = React.useState<string>('');
+const Provider = ({ children, defaultPath, updatePath }: ProviderProps) => {
+   const [path, setPath] = React.useState<string>(defaultPath);
 
    React.useEffect(
       function () {
@@ -90,22 +91,16 @@ const Folder = ({ path, name, folders }: FolderProps) => {
 };
 
 type FolderTreeProps = {
+   defaultPath: string;
    setPath: (path: string) => void;
 };
 
-const FolderTree = ({ setPath }: FolderTreeProps) => {
+const FolderTree = ({ defaultPath, setPath }: FolderTreeProps) => {
    const { state } = useFilesContext();
    return (
-      <Provider updatePath={setPath}>
+      <Provider defaultPath={defaultPath} updatePath={setPath}>
          <div className={styles.tree}>
-            {state.folders.map((folder) => (
-               <Folder
-                  key={folder.id}
-                  path={`/${folder.id}`}
-                  name={folder.name}
-                  folders={folder.folders}
-               />
-            ))}
+            <Folder path={'/'} name={'My Files'} folders={state.folders} />
          </div>
       </Provider>
    );

@@ -1,0 +1,45 @@
+.content {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+   width: 100%;
+   height: 100%;
+
+   .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 0.5rem;
+      align-items: center;
+      justify-items: center;
+
+      width: 100%;
+
+      .button {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: center;
+
+         border: none;
+         border-radius: 0.5rem;
+
+         padding: 1rem;
+
+         width: 100%;
+
+         cursor: pointer;
+
+         &.delete {
+            background-color: var(--clr-danger);
+            color: var(--on-danger);
+         }
+
+         &.cancel {
+            background-color: var(--clr-bg-elevated);
+            color: var(--on-bg);
+         }
+      }
+   }
+}

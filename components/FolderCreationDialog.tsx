@@ -17,7 +17,13 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
    const { state, dispatch } = useFilesContext();
 
    const [folderName, setFolderName] = React.useState('');
-   const [path, setPath] = React.useState('');
+   const [path, setPath] = React.useState('/');
+
+   function handleClose() {
+      setFolderName('');
+      setPath('/');
+      close();
+   }
 
    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
@@ -29,14 +35,14 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
          },
       });
       setFolderName('');
-      setPath('');
+      setPath('/');
       close();
    };
 
    return (
       <Modal
          shown={shown}
-         close={close}
+         close={handleClose}
          heading={'Create New Folder'}
          style={'accent'}>
          <form className={styles.form} onSubmit={handleSubmit}>
@@ -54,7 +60,7 @@ const FolderCreationDialog = ({ shown, close }: Props) => {
                </label>
             </div>
             <div className={`${styles.group} ${styles.input__folder}`.trim()}>
-               <FolderTree setPath={setPath} />
+               <FolderTree defaultPath={path} setPath={setPath} />
             </div>
             <div className={`${styles.actions} ${styles.input__submit}`.trim()}>
                <button className={styles.action} type='submit'>

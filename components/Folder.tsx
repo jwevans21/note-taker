@@ -2,9 +2,13 @@ import React from 'react';
 
 import type { Folder as FolderType } from '../utils/files.types';
 
+import { useFilesContext } from '../utils/context/files-context';
+
 import File from './File';
 
 import styles from '../styles/Folder.module.scss';
+import { ACTIONS } from '../utils/context/payloads';
+import FileFolderContextMenu from './FileFolderContextMenu';
 
 function FolderClosedIcon() {
    return (
@@ -70,11 +74,35 @@ type Props = {
 };
 
 const Folder = ({ folder: { name, id, folders, files }, path }: Props) => {
+   const [context, setContext] = React.useState(false);
+   const [x, setX] = React.useState(0);
+   const [y, setY] = React.useState(0);
+
+   const contextRef = React.useRef<HTMLDivElement>(null);
+
+   const { dispatch } = useFilesContext();
+
    const [isOpen, setIsOpen] = React.useState(false);
+
+   function handleOpen(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      e.preventDefault();
+      if (context) return;
+      setIsOpen(!isOpen);
+   }
+
+   function handleContext(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      e.preventDefault();
+      setX(e.clientX);
+      setY(e.clientY);
+      setContext(true);
+   }
 
    return (
       <div className={styles.folder}>
-         <div className={styles.heading} onClick={() => setIsOpen(!isOpen)}>
+         <div
+            className={styles.heading}
+            onClick={handleOpen}
+            onContextMenu={handleContext}>
             <span className={styles.leftIcon}>
                {isOpen ? <FolderOpenedIcon /> : <FolderClosedIcon />}
             </span>
@@ -82,6 +110,34 @@ const Folder = ({ folder: { name, id, folders, files }, path }: Props) => {
             <span className={styles.rightIcon}>
                <ChevronIcon open={isOpen} />
             </span>
+            <FileFolderContextMenu
+               passRef={contextRef}
+               shown={context}
+               setShown={setContext}
+               deleteItem={() =>
+                  dispatch({
+                     type: ACTIONS.OPEN_DELETE_FOLDER_DIALOG,
+                     payload: {
+                        id,
+                        path,
+                        name,
+                        close: () =>
+                           dispatch({
+                              type: ACTIONS.CLOSE_DELETE_FOLDER_DIALOG,
+                              payload: null,
+                           }),
+                     },
+                  })
+               }
+               renameItem={() =>
+                  dispatch({
+                     type: ACTIONS.RENAME_FOLDER,
+                     payload: { id, path, name },
+                  })
+               }
+               x={x}
+               y={y}
+            />
          </div>
          <div
             className={styles.items}

@@ -1,6 +1,17 @@
 export { createFile } from './createFile';
-export {deleteFile} from './deleteFile';
-export { createFolder } from './createFolder';
 export { updateFile } from './updateFile';
-export { currentFile } from './currentFile';
+export { deleteFile } from './deleteFile';
 export { downloadFile } from './downloadFile';
+
+export { createFolder } from './createFolder';
+export { deleteFolder } from './deleteFolder';
+
+export { currentFile } from './currentFile';
+export {
+   openDeleteFileDialog,
+   closeDeleteFileDialog,
+} from './deleteFileDialog';
+export {
+   openDeleteFolderDialog,
+   closeDeleteFolderDialog,
+} from './deleteFolderDialog';
