@@ -11,6 +11,7 @@ import { useFilesContext } from '../utils/context/files-context';
 
 import styles from '../styles/Editor.module.scss';
 import { getCurrentFile } from '../utils/getCurrentFile';
+import { ACTIONS } from '../utils/context/payloads';
 
 const Editor = () => {
    const { state, dispatch } = useFilesContext();
@@ -37,7 +38,7 @@ const Editor = () => {
       if (inputRef.current && outputRef.current) {
          const cm = editor(inputRef, file ? file.content : '', (newCode) => {
             dispatch({
-               type: 'UPDATE_FILE',
+               type: ACTIONS.UPDATE_FILE,
                payload: {
                   content: newCode,
                },
